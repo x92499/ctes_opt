@@ -40705,6 +40705,6 @@ OS:WeatherFile,
   -84.43,                                 !- Longitude {deg}
   -5,                                     !- Time Zone {hr}
   308,                                    !- Elevation {m}
-  USA_GA_Atlanta-Hartsfield-Jackson.Intl.AP.722190_TMY3.epw, !- Url
+  C:/Users/heine/AppData/Local/Temp/osmodel-1614021715-0/resources/files/USA_GA_Atlanta-Hartsfield-Jackson.Intl.AP.722190_TMY3.epw, !- Url
   F0AA8FA7;                               !- Checksum
 

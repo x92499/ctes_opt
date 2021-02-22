@@ -3,8 +3,8 @@
   <schema_version>3.0</schema_version>
   <name>expose_chillers</name>
   <uid>9f92068a-9a34-43aa-b44b-59330172b57c</uid>
-  <version_id>52e2aad0-9eef-410b-9187-a9b3ac16d8f9</version_id>
-  <version_modified>20210222T180004Z</version_modified>
+  <version_id>40aebf45-301f-482f-97be-a9a1db61191e</version_id>
+  <version_modified>20210222T205305Z</version_modified>
   <xml_checksum>3F73FEE6</xml_checksum>
   <class_name>ExposeChillers</class_name>
   <display_name>Expose Chillers</display_name>
@@ -69,6 +69,18 @@
       <checksum>53D14E69</checksum>
     </file>
     <file>
+      <filename>expose_chillers_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>3256786B</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>C4ED5AD0</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>3.1.0</identifier>
@@ -77,25 +89,25 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>762039F2</checksum>
-    </file>
-    <file>
-      <filename>expose_chillers_test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>3256786B</checksum>
+      <checksum>B4FB4DEE</checksum>
     </file>
     <file>
       <filename>ITStest.osm</filename>
       <filetype>osm</filetype>
       <usage_type>test</usage_type>
-      <checksum>5C251CFB</checksum>
+      <checksum>FE51FC88</checksum>
     </file>
     <file>
-      <filename>README.md</filename>
-      <filetype>md</filetype>
-      <usage_type>readme</usage_type>
-      <checksum>C4ED5AD0</checksum>
+      <filename>Chiller0.dat</filename>
+      <filetype>dat</filetype>
+      <usage_type>test</usage_type>
+      <checksum>EEC8BB74</checksum>
+    </file>
+    <file>
+      <filename>chiller_index.dat</filename>
+      <filetype>dat</filetype>
+      <usage_type>test</usage_type>
+      <checksum>ED59090A</checksum>
     </file>
   </files>
 </measure>

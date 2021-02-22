@@ -1,0 +1,7 @@
+{
+   "created_at" : "20210222T192155Z",
+   "seed_file" : "../ITStest.osm",
+   "steps" : [],
+   "updated_at" : "20210222T192214Z",
+   "weather_file" : "USA_GA_Atlanta-Hartsfield-Jackson.Intl.AP.722190_TMY3.epw"
+}

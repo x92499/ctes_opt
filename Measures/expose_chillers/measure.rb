@@ -2,6 +2,7 @@
 
 # see the URL below for information on how to write OpenStudio measures
 # http://nrel.github.io/OpenStudio-user-documentation/reference/measure_writing_guide/
+require 'csv'
 
 # start the measure
 class ExposeChillers < OpenStudio::Measure::ModelMeasure
@@ -42,16 +43,17 @@ class ExposeChillers < OpenStudio::Measure::ModelMeasure
 
     # iterate through the chillers and capture chiller & curve data
     chillers = model.getChillerElectricEIRs
+    idx = 0
+    chiller_names = Array.new()
     chillers.each do |c|
       # get chiller specs
-      name = c.name
-      # cap = NEED TO GET AFTER AUTOSIZING! (convert to REPORTING measure)
+      chiller_names += [c.name.to_s]
       cop_ref = c.referenceCOP
       elwt_ref = c.referenceLeavingChilledWaterTemperature
       cewt_ref = c.referenceEnteringCondenserFluidTemperature
       plr_min = c.minimumPartLoadRatio
       condenser = c.condenserType
-      con_fan = c.condenserFanPowerRatio
+      cond_fan = c.condenserFanPowerRatio
 
       # get CAPfT curve (BiQuadratic)
       cap_ft = c.coolingCapacityFunctionOfTemperature
@@ -82,11 +84,43 @@ class ExposeChillers < OpenStudio::Measure::ModelMeasure
       eir_fPLR_coeffs = [eir_fPLR.coefficient1Constant,
                          eir_fPLR.coefficient2x,
                          eir_fPLR.coefficient3xPOW2]
-      eir_ft_limits = [eir_fPLR.minimumValueofx, eir_fPLR.maximumValueofx,
+      eir_fPLR_limits = [eir_fPLR.minimumValueofx, eir_fPLR.maximumValueofx,
                        eir_fPLR.minimumCurveOutput, eir_fPLR.maximumCurveOutput]
-      puts(eir_ft, eir_fPLR, cap_ft)
+
+      # write available data to file
+      file = CSV.open("chiller#{idx}.dat", 'w') do |wrt|
+        wrt << [chiller_names[idx]]
+        wrt << [cop_ref, plr_min, elwt_ref, cewt_ref]
+        wrt << [condenser, cond_fan]
+        wrt << cap_ft_coeffs
+        wrt << cap_ft_limits
+        wrt << eir_ft_coeffs
+        wrt << eir_ft_limits
+        wrt << eir_fPLR_coeffs
+        wrt << eir_fPLR_limits
+        wrt << []
+        wrt << [
+        "Key:
+        Chiller Name
+        Reference COP, Design Evaporator Leaving Fluid Temp, Design Condenser Entering Fluid Temp
+        Condenser Type, Condenser Fan Power Ratio
+        Capacity as a Function of Temperature Coefficients (BiQuadratic)
+        Capacity as a Function of Temperature Limits (x min/max, y min/max, output min/max)
+        EIR as a Function of Temperature Coefficients (BiQuadratic)
+        EIR as a Function of Temperature Limits (x min/max, y min/max, output mix/max)
+        EIR as a Function fo PLR Coefficiets (Quadratic)
+        EIR as a Function of PLR Limits (x min/ max, output min/max)"]
+      end
+
+      idx += 1
+
     end
 
+    File.open("chiller_index.dat", "w") do |line|
+      for c in chiller_names
+        line.write("#{chiller_names.index(c)}, #{c}")
+      end
+    end
 
     # report initial condition of model
     runner.registerInitialCondition("The building started with #{model.getSpaces.size} spaces.")

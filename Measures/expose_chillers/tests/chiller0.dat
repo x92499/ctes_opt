@@ -1,0 +1,20 @@
+90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton
+2.80239043824701,0.15,6.66666666666669,35.0000000000001
+AirCooled,0.0
+1.0433825,0.0407073,0.0004506,-0.0041514,-8.86e-05,-0.0003467
+5.0,10.0,12.7,51.67,"",""
+0.5961915,-0.0099496,0.0007888,0.0004506,0.0004875,-0.0007623
+5.0,10.0,12.7,51.67,"",""
+0.141,0.655,0.203
+0.0,1.0,"",""
+
+"Key:
+        Chiller Name
+        Reference COP, Design Evaporator Leaving Fluid Temp, Design Condenser Entering Fluid Temp
+        Condenser Type, Condenser Fan Power Ratio
+        Capacity as a Function of Temperature Coefficients (BiQuadratic)
+        Capacity as a Function of Temperature Limits (x min/max, y min/max, output min/max)
+        EIR as a Function of Temperature Coefficients (BiQuadratic)
+        EIR as a Function of Temperature Limits (x min/max, y min/max, output mix/max)
+        EIR as a Function fo PLR Coefficiets (Quadratic)
+        EIR as a Function of PLR Limits (x min/ max, output min/max)"
