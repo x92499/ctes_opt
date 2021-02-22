@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>expose_chillers</name>
+  <uid>9f92068a-9a34-43aa-b44b-59330172b57c</uid>
+  <version_id>dc34b93c-45bf-49e2-91b5-650c1d2821e9</version_id>
+  <version_modified>20210222T163405Z</version_modified>
+  <xml_checksum>3075184D</xml_checksum>
+  <class_name>ExposeChillers</class_name>
+  <display_name>Expose Chillers</display_name>
+  <description>This measure idenifies all chillers in the model and exports all related data.</description>
+  <modeler_description>The measure performs the following functions: (1) ID's all chillers, (2) Locates their performance curves and outputs the data, (3) Adds reporting variables for chiller-related data.</modeler_description>
+  <arguments>
+    <argument>
+      <name>space_name</name>
+      <display_name>New space name</display_name>
+      <description>This name will be used as the name of the new space.</description>
+      <type>String</type>
+      <units></units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+      <min_value></min_value>
+      <max_value></max_value>
+    </argument>
+  </arguments>
+  <outputs />
+  <provenances />
+  <tags>
+    <tag>Reporting.QAQC</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Apply Measure Now</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Automatic Report Generation</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>3.1.0</identifier>
+        <min_compatible>3.1.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>554AE529</checksum>
+    </file>
+    <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>CD7F5672</checksum>
+    </file>
+    <file>
+      <filename>README.md.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>readmeerb</usage_type>
+      <checksum>703C9964</checksum>
+    </file>
+    <file>
+      <filename>.gitkeep</filename>
+      <filetype>gitkeep</filetype>
+      <usage_type>doc</usage_type>
+      <checksum>00000000</checksum>
+    </file>
+    <file>
+      <filename>expose_chillers_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>7A1106B8</checksum>
+    </file>
+    <file>
+      <filename>example_model.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>53D14E69</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>0B68E96D</checksum>
+    </file>
+  </files>
+</measure>
+<error>C:/GitHub/ctes_opt/Measures/expose_chillers/measure.rb:21: syntax error, unexpected tIDENTIFIER, expecting keyword_end
+...e following functions: (1) ID's all chillers, (2) Locates th...
+...                              ^
+C:/GitHub/ctes_opt/Measures/expose_chillers/measure.rb:21: syntax error, unexpected tCONSTANT, expecting keyword_end
+... ID's all chillers, (2) Locates their performance curves and...
+...                        ^~~~~~~
+C:/GitHub/ctes_opt/Measures/expose_chillers/measure.rb:21: syntax error, unexpected tCONSTANT, expecting keyword_end
+... and outputs the data, (3) Adds reporting variables for chil...
+...                           ^~~~
+C:/GitHub/ctes_opt/Measures/expose_chillers/measure.rb:21: syntax error, unexpected '-', expecting &amp;. or :: or '[' or '.'
+...eporting variables for chiller-related data.'
+...                              ^
+C:/GitHub/ctes_opt/Measures/expose_chillers/measure.rb:21: syntax error, unexpected tSTRING_BEG, expecting '('
+...bles for chiller-related data.'
+...                              ^
+C:/GitHub/ctes_opt/Measures/expose_chillers/measure.rb:29: syntax error, unexpected tIDENTIFIER, expecting keyword_end
+....makeStringArgument('space_name', true)
+...                     ^~~~~~~~~~
+C:/GitHub/ctes_opt/Measures/expose_chillers/measure.rb:30: syntax error, unexpected tCONSTANT, expecting keyword_end
+... space_name.setDisplayName('New space name')
+...                            ^~~
+C:/GitHub/ctes_opt/Measures/expose_chillers/measure.rb:31: syntax error, unexpected tCONSTANT, expecting keyword_end
+...space_name.setDescription('This name will be used as the nam...
+...                           ^~~~
+C:/GitHub/ctes_opt/Measures/expose_chillers/measure.rb:31: syntax error, unexpected tSTRING_BEG, expecting '('
+... as the name of the new space.')
+...                              ^
+C:/GitHub/ctes_opt/Measures/expose_chillers/measure.rb:47: syntax error, unexpected tIDENTIFIER, expecting keyword_end
+...StringArgumentValue('space_name', user_arguments)
+...                     ^~~~~~~~~~
+C:/GitHub/ctes_opt/Measures/expose_chillers/measure.rb:51: syntax error, unexpected tCONSTANT, expecting keyword_end
+...    runner.registerError('Empty space name was entered.')
+...                          ^~~~~
+C:/GitHub/ctes_opt/Measures/expose_chillers/measure.rb:51: syntax error, unexpected tSTRING_BEG, expecting '('
+...'Empty space name was entered.')
+...                              ^
+C:/GitHub/ctes_opt/Measures/expose_chillers/measure.rb:62: syntax error, unexpected tIDENTIFIER, expecting keyword_end
+    # echo the new space's name back to the user
+                         ^</error>
