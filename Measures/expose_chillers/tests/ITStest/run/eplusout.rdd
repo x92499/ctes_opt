@@ -1,4 +1,4 @@
-! Program Version,EnergyPlus, Version 9.4.0-998c4b761e, YMD=2021.02.22 12:22,
+! Program Version,EnergyPlus, Version 9.4.0-998c4b761e, YMD=2021.02.22 16:14,
 ! Output:Variable Objects (applicable to this run)
 Output:Variable,*,Site Outdoor Air Drybulb Temperature,hourly; !- Zone Average [C]
 Output:Variable,*,Site Outdoor Air Dewpoint Temperature,hourly; !- Zone Average [C]
@@ -147,6 +147,8 @@ Output:Variable,*,Zone Gas Equipment Lost Heat Energy,hourly; !- Zone Sum [J]
 Output:Variable,*,Zone Gas Equipment Lost Heat Rate,hourly; !- Zone Average [W]
 Output:Variable,*,Zone Gas Equipment Total Heating Energy,hourly; !- Zone Sum [J]
 Output:Variable,*,Zone Gas Equipment Total Heating Rate,hourly; !- Zone Average [W]
+Output:Variable,*,Chiller0 Nominal Capacity,hourly; !- Zone Average [W]
+Output:Variable,*,Energy Management System Output Variable 1,hourly; !- Zone Average [W]
 Output:Variable,*,Zone Windows Total Transmitted Solar Radiation Rate,hourly; !- Zone Average [W]
 Output:Variable,*,Zone Exterior Windows Total Transmitted Beam Solar Radiation Rate,hourly; !- Zone Average [W]
 Output:Variable,*,Zone Interior Windows Total Transmitted Beam Solar Radiation Rate,hourly; !- Zone Average [W]

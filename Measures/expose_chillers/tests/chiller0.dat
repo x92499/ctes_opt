@@ -10,7 +10,7 @@ AirCooled,0.0
 
 "Key:
         Chiller Name
-        Reference COP, Design Evaporator Leaving Fluid Temp, Design Condenser Entering Fluid Temp
+        Reference COP, Minimum Part Load Ratio, Design Evaporator Leaving Fluid Temp, Design Condenser Entering Fluid Temp
         Condenser Type, Condenser Fan Power Ratio
         Capacity as a Function of Temperature Coefficients (BiQuadratic)
         Capacity as a Function of Temperature Limits (x min/max, y min/max, output min/max)

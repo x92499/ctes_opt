@@ -80,9 +80,6 @@ class ExposeChillersTest < Minitest::Test
     assert(!model.empty?)
     model = model.get
 
-    # store the number of spaces in the seed model
-    num_spaces_seed = model.getSpaces.size
-
     # get arguments
     arguments = measure.arguments(model)
     argument_map = OpenStudio::Measure.convertOSArgumentVectorToMap(arguments)
@@ -90,7 +87,7 @@ class ExposeChillersTest < Minitest::Test
     # create hash of argument values.
     # If the argument has a default that you want to use, you don't need it in the hash
     args_hash = {}
-    args_hash['space_name'] = 'New Space'
+    #args_hash['space_name'] = 'New Space'
     # using defaults values from measure.rb for other arguments
 
     # populate argument with specified hash value if specified
@@ -111,11 +108,11 @@ class ExposeChillersTest < Minitest::Test
 
     # assert that it ran correctly
     assert_equal('Success', result.value.valueName)
-    assert(result.info.size == 1)
+    assert(result.info.size == 0)
     assert(result.warnings.empty?)
 
     # check that there is now 1 space
-    assert_equal(1, model.getSpaces.size - num_spaces_seed)
+    #assert_equal(1, model.getSpaces.size - num_spaces_seed)
 
     # save the model to test output directory
     output_file_path = "#{File.dirname(__FILE__)}//output/test_output.osm"

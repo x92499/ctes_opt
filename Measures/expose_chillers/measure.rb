@@ -38,6 +38,9 @@ class ExposeChillers < OpenStudio::Measure::ModelMeasure
       return false
     end
 
+    # report initial condition of model
+    runner.registerInitialCondition("Started.")
+
     # assign the user inputs to variables
     ## TBD
 
@@ -87,9 +90,20 @@ class ExposeChillers < OpenStudio::Measure::ModelMeasure
       eir_fPLR_limits = [eir_fPLR.minimumValueofx, eir_fPLR.maximumValueofx,
                        eir_fPLR.minimumCurveOutput, eir_fPLR.maximumCurveOutput]
 
+      # get chiller capacity via EMS built-in variable, create as output variable
+      n = OpenStudio::Model::EnergyManagementSystemInternalVariable.new(model, "Chiller Nominal Capacity")
+      n.setName("Chiller#{idx}_Nominal_Capacity")
+      n.setInternalDataIndexKeyName(c.name.to_s)
+      model.addObject(n)
+
+      n = OpenStudio::Model::EnergyManagementSystemOutputVariable.new(model, "Chiller#{idx}_Nominal_Capacity")
+      n.setName("Chiller#{idx} Nominal Capacity")
+      n.setUnits("W")
+      model.addObject(n)
+
       # write available data to file
       file = CSV.open("chiller#{idx}.dat", 'w') do |wrt|
-        wrt << [chiller_names[idx]]
+        wrt << [c.name.to_s]
         wrt << [cop_ref, plr_min, elwt_ref, cewt_ref]
         wrt << [condenser, cond_fan]
         wrt << cap_ft_coeffs
@@ -102,7 +116,7 @@ class ExposeChillers < OpenStudio::Measure::ModelMeasure
         wrt << [
         "Key:
         Chiller Name
-        Reference COP, Design Evaporator Leaving Fluid Temp, Design Condenser Entering Fluid Temp
+        Reference COP, Minimum Part Load Ratio, Design Evaporator Leaving Fluid Temp, Design Condenser Entering Fluid Temp
         Condenser Type, Condenser Fan Power Ratio
         Capacity as a Function of Temperature Coefficients (BiQuadratic)
         Capacity as a Function of Temperature Limits (x min/max, y min/max, output min/max)
@@ -112,21 +126,41 @@ class ExposeChillers < OpenStudio::Measure::ModelMeasure
         EIR as a Function of PLR Limits (x min/ max, output min/max)"]
       end
 
+      # add output variables
+      vars = ["Chiller Electricity Rate",
+              "Chiller Evaporator Cooling Rate",
+              "Chiller Evaporator Inlet Temperature",
+              "Chiller Evaporator Mass Flow Rate",
+              "Disctrict Cooling Chilled Water Rate",
+              "District Cooling Mass Flow Rate"]
+
+      vars.each do |v|
+        n = OpenStudio::Model::OutputVariable.new(v, model)
+        n.setKeyValue(chiller_names[idx])
+        n.setReportingFrequency("Timestep")
+        model.addObject(n)
+      end
+
+      # add output variable from EMS
+      n = OpenStudio::Model::OutputVariable.new("Chiller#{idx} Nominal Capacity", model)
+      n.setName("Chiller#{idx} Nominal Capacity")
+      n.setReportingFrequency("RunPeriod")
+      model.addObject(n)
+
       idx += 1
 
     end
 
-    File.open("chiller_index.dat", "w") do |line|
-      for c in chiller_names
-        line.write("#{chiller_names.index(c)}, #{c}")
+    if chiller_names.size > 0
+      File.open("chiller_index.dat", "w") do |line|
+        for c in chiller_names
+          line.write("#{chiller_names.index(c)}, #{c}")
+        end
       end
     end
 
-    # report initial condition of model
-    runner.registerInitialCondition("The building started with #{model.getSpaces.size} spaces.")
-
     # report final condition of model
-    runner.registerFinalCondition("The building finished with #{model.getSpaces.size} spaces.")
+    runner.registerFinalCondition("Finished.")
 
     return true
   end

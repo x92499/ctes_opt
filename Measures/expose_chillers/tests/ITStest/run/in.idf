@@ -34995,9 +34995,44 @@ Output:Meter:MeterFileOnly,
   Hourly;                                 !- Reporting Frequency
 
 Output:Variable,
+  ,                                       !- Key Value
+  Chiller0 Nominal Capacity,              !- Variable Name
+  RunPeriod;                              !- Reporting Frequency
+
+Output:Variable,
   *,                                      !- Key Value
   Chiller Electricity Rate,               !- Variable Name
   Hourly;                                 !- Reporting Frequency
+
+Output:Variable,
+  90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Key Value
+  Chiller Electricity Rate,               !- Variable Name
+  Timestep;                               !- Reporting Frequency
+
+Output:Variable,
+  90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Key Value
+  Chiller Electricity Rate,               !- Variable Name
+  Timestep;                               !- Reporting Frequency
+
+Output:Variable,
+  90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Key Value
+  Chiller Evaporator Cooling Rate,        !- Variable Name
+  Timestep;                               !- Reporting Frequency
+
+Output:Variable,
+  90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Key Value
+  Chiller Evaporator Cooling Rate,        !- Variable Name
+  Timestep;                               !- Reporting Frequency
+
+Output:Variable,
+  90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Key Value
+  Chiller Evaporator Inlet Temperature,   !- Variable Name
+  Timestep;                               !- Reporting Frequency
+
+Output:Variable,
+  90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Key Value
+  Chiller Evaporator Inlet Temperature,   !- Variable Name
+  Timestep;                               !- Reporting Frequency
 
 Output:Variable,
   *,                                      !- Key Value
@@ -35038,6 +35073,16 @@ Output:Variable,
   *,                                      !- Key Value
   Site Outdoor Air Wetbulb Temperature,   !- Variable Name
   Hourly;                                 !- Reporting Frequency
+
+EnergyManagementSystem:InternalVariable,
+  Chiller0_Nominal_Capacity,              !- Name
+  90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Internal Data Index Key Name
+  Chiller Nominal Capacity;               !- Internal Data Type
+
+EnergyManagementSystem:InternalVariable,
+  Energy_Management_System_Internal_Variable_1, !- Name
+  90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Internal Data Index Key Name
+  Chiller Nominal Capacity;               !- Internal Data Type
 
 EnergyManagementSystem:Sensor,
   Mains_Water_Temp_Sen,                   !- Name
@@ -35381,6 +35426,22 @@ EnergyManagementSystem:ProgramCallingManager,
   VAVPOD3OptimumStartCallingManager0,     !- Name
   BeginTimestepBeforePredictor,           !- EnergyPlus Model Calling Point
   VAVPOD3OptimumStartProg0;               !- Program Name 1
+
+EnergyManagementSystem:OutputVariable,
+  Chiller0 Nominal Capacity,              !- Name
+  Chiller0_Nominal_Capacity,              !- EMS Variable Name
+  Averaged,                               !- Type of Data in Variable
+  ZoneTimestep,                           !- Update Frequency
+  ,                                       !- EMS Program or Subroutine Name
+  W;                                      !- Units
+
+EnergyManagementSystem:OutputVariable,
+  Energy Management System Output Variable 1, !- Name
+  Chiller0_Nominal_Capacity,              !- EMS Variable Name
+  Averaged,                               !- Type of Data in Variable
+  ZoneTimestep,                           !- Update Frequency
+  ,                                       !- EMS Program or Subroutine Name
+  W;                                      !- Units
 
 OutputControl:Table:Style,
   HTML;                                   !- Column Separator

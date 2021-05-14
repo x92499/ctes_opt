@@ -1,0 +1,7 @@
+OS:Output:Variable,
+  {65388206-9931-4a95-af30-330d56799f9b}, !- Handle
+  Chiller0 Nominal Capacity,              !- Name
+  ,                                       !- Key Value
+  Chiller0 Nominal Capacity,              !- Variable Name
+  RunPeriod;                              !- Reporting Frequency
+

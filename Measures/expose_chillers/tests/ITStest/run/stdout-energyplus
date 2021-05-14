@@ -1,5 +1,5 @@
 EnergyPlus Starting
-EnergyPlus, Version 9.4.0-998c4b761e, YMD=2021.02.22 12:22
+EnergyPlus, Version 9.4.0-998c4b761e, YMD=2021.02.22 16:14
 Initializing Response Factors
 Calculating CTFs for "INTERIORFURNISHINGS"
 Calculating CTFs for "SMALLHOTEL 2010 SLAB FLOOR"
@@ -83,5 +83,5 @@ Starting Simulation at 12/21 for EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% COND
 Writing tabular output file results using HTML format.
 Computing Life Cycle Costs and Reporting
 Writing final SQL reports
-EnergyPlus Run Time=00hr 00min  4.18sec
+EnergyPlus Run Time=00hr 00min  4.25sec
 EnergyPlus Completed Successfully.
