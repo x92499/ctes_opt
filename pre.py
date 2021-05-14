@@ -26,6 +26,7 @@ import sys
 import time
 
 ## Custom Modules
+sys.path.append("python_modules")
 import get_args
 import get_districts
 import get_wx

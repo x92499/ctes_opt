@@ -12,7 +12,6 @@ import csv
 import os
 import sys
 
-
 def run(input_path, log):
     # check for and parse districts.csv
     buildings = {}
