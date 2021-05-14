@@ -1,0 +1,25 @@
+INFO: Logging initialized
+INFO: File: 'pre.py'. Start time: Fri May 14 16:49:33 2021
+INFO: 
+ **Getting user arguments from the command line**
+INFO: Performming performance curve pre-processing step
+INFO: buildings_processor = False
+INFO: curve_processor = True
+INFO: plant_loops_processor = False
+INFO: reset = False
+INFO: input_path = C:\GitHub\ctes_opt\mines_example/
+INFO: segments = 3
+INFO: ts_opt = 1
+INFO: 
+ **Parsing the districts assignments file**
+INFO: {'Berthoud': {'plant_loop': 'CP6'}, 'Brown': {'plant_loop': 'CP6'}, 'Coolbaugh': {'plant_loop': 'CP7'}, 'CoorsTek': {'plant_loop': 'CP6'}, 'Tester': {'plant_loop': 'None'}}
+INFO: {'CP6': {}, 'CP7': {}, 'Tester': {}}
+INFO: 
+ **Getting the weather file**
+INFO: **Obtaining temperatures from weather file**
+INFO: The following data was extracted from the weather file:
+INFO:  * 8760 wetbulb temperatures
+INFO:  * 8760 drybulb temperatures
+INFO: Weather file: C:\GitHub\ctes_opt\mines_example/building_sim\2019 NREL Wx.epw
+INFO: 
+ **Performing the performance curve pre-processor**

@@ -36,7 +36,7 @@ import process_curves
 ## Main Program
 #-------------------------------------------------------------------------------
 ## Setup Logger
-log.basicConfig(filename='log_pre_opt.log',
+log.basicConfig(filename='pre.log',
                 filemode='w',
                 format="%(levelname)s: %(message)s",
                 level=log.DEBUG)
@@ -211,3 +211,5 @@ if curve_processor:
 
 
 print("Finished!")
+os.system("cp pre.log {}".format(
+    os.path.join(input_path, "pre-{}.log".format(time.time()))))
