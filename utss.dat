@@ -1,0 +1,43 @@
+# UTSS Optimization Formulation
+# Karl Heine
+# June 29, 2020
+
+#--------------------------------
+# Data File
+#--------------------------------
+# utss.dat
+
+# Read Fixed Parameter Data
+read delta, N, T, {n in 1..N} Tl_count[n], I, {i in 1..I} q[i], {n in 1..N} m[1,n], {i in 1..I} eps[i], D, {d in 1..D} c_p[d], {d in 1..D} Tp_count[d] < fixed_params.dat;
+
+# Read Baseline Electric Demand Profile
+read {t in 1..T} p[t] < district_power.dat;
+
+# Read Baseline Thermal Cooling Load
+read {t in 1..T, n in 1..N} l[n,t] < bldg_loads.dat;
+
+# Read Efficiencies
+read {t in 1..T, i in 1..I} etaX[i,t] < etaX.dat;
+read {t in 1..T, n in 1..N} etaY[n,t] < etaY.dat;
+read {t in 1..T, i in 1..I} etaS[i,t] < etaS.dat;
+#read {t in 1..T, n in 1..N} eps[1,n,t] < epsilon.dat; # Just for UTSS type 1 (IceBear 40) so far; Not yet!
+
+# Read Capacity Restrictions
+read {t in 1..T, i in 1..I} qX[i,t] < qX.dat;
+read {t in 1..T, n in 1..N} qY[1,n,t] < qY.dat;
+
+# Read Energy Cost Cost Data
+read {t in 1..T} c_e[t] < cost_elec.dat;
+
+## Build Indexed Sets
+# Read Set Values
+read {n in 1..N, t in 1..Tl_count[n]} Tl_vals[n,t] < Tl.dat;
+read {d in 1..D, t in 1..Tp_count[d]} Tp_vals[d,t] < Tp.dat;
+
+# Populate Sets
+for {n in 1..N} {
+	let Tl[n]:= setof {t in 1..Tl_count[n]} Tl_vals[n,t];
+}
+for {d in 1..D} {
+	let Tp[d]:= setof {t in 1..Tp_count[d]} Tp_vals[d,t];
+}

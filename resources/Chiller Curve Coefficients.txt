@@ -1,0 +1,57 @@
+Chiller Performance Curve List
+-----------------------------------------------------------------------
+90.1-2010 AirCooled WithCondenser  Chiller 0 278tons 1.3kW/ton
+
+Ref COP
+2.802390438247
+
+Ref Leave Temp
+6.66666666666669
+
+Ref Entering Temp
+35.0000000000001
+
+PLR
+0.15 - 1.0 range
+1.0 optimal
+0.25 min unloading ratio
+
+Compressor Motor Efficiency
+1.0
+
+Leaving Chilled Water Lower Limit
+2.22222222222229
+
+Constant Flow
+
+CAPFT - BiQuad
+1.0433825
+0.0407073
+0.0004506
+-0.0041514
+-8.86e-005
+-0.0003467
+5
+10
+12.7
+51.67
+
+EIRFT - BiQuad
+0.5961915
+-0.0099496
+0.0007888
+0.0004506
+0.0004875
+-0.0007623
+5
+10
+12.7
+51.67
+
+EIRPLR - Quad
+0.141
+0.655
+0.203
+0
+1
+-----------------------------------------------------------------------

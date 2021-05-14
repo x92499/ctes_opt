@@ -1,0 +1,49 @@
+INFO: Logging initialized
+INFO: File: 'pre.py'. Start time: Fri May 14 15:55:37 2021
+INFO: 
+ **Getting user arguments from the command line**
+INFO: Performming district plant loops pre-processing step
+INFO: buildings_processor = False
+INFO: curve_processor = False
+INFO: plant_loops_processor = True
+INFO: reset = False
+INFO: input_path = C:\Users\heine\Documents\0. Mines\0. Research\7. Project - Central Ice Optimization\mines_example/
+INFO: segments = 3
+INFO: ts_opt = 1
+INFO: 
+ **Parsing the districts assignments file**
+INFO: {'Berthoud': {'plant_loop': 'CP6'}, 'Brown': {'plant_loop': 'CP6'}, 'Coolbaugh': {'plant_loop': 'CP7'}, 'CoorsTek': {'plant_loop': 'CP6'}, 'Tester': {'plant_loop': 'None'}}
+INFO: {'CP6': {}, 'CP7': {}, 'Tester': {}}
+INFO: 
+ **Getting the weather file**
+INFO: **Obtaining temperatures from weather file**
+INFO: The following data was extracted from the weather file:
+INFO:  * 8760 wetbulb temperatures
+INFO:  * 8760 drybulb temperatures
+INFO: Weather file: C:\Users\heine\Documents\0. Mines\0. Research\7. Project - Central Ice Optimization\mines_example/building_sim\2019 NREL Wx.epw
+INFO: 
+ **Performing the plant loop pre-processor**
+INFO: 
+ Loading CP6...
+INFO: ...completed
+INFO:  Building simulation data is of greater precision than the optimization timestep; data will be aggregated and averaged
+INFO:  Detected simulation timestep: 6 per hour
+INFO:  Peak Electric Demand [kW]: 625.13
+INFO:  Total Electric Energy [MWh]: 1638.8
+INFO:  Chillers found: 1
+INFO:  Timestep data for optional variable 'Chiller Evaporator Outlet Temperature [C]' was not found in the .eso
+INFO:  Assuming a chilled water loop temperature of 6.67 [C] (44 [F])
+INFO:  Timestep data for optional variable 'Chiller Part Load Ratio [-]' was not found in the .eso
+INFO: 
+ Loading CP7...
+INFO: ...completed
+INFO:  Building simulation data is of greater precision than the optimization timestep; data will be aggregated and averaged
+INFO:  Detected simulation timestep: 6 per hour
+INFO:  Peak Electric Demand [kW]: 385.93
+INFO:  Total Electric Energy [MWh]: 983.42
+INFO:  Chillers found: 1
+INFO:  Timestep data for optional variable 'Chiller Evaporator Outlet Temperature [C]' was not found in the .eso
+INFO:  Assuming a chilled water loop temperature of 6.67 [C] (44 [F])
+INFO:  Timestep data for optional variable 'Chiller Part Load Ratio [-]' was not found in the .eso
+INFO: plant_loops.p saved to workspace folder
+WARNING: Terminated at completion of plant loops processor

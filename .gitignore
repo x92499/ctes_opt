@@ -1,0 +1,3 @@
+# OSM run files
+resources/OS Models for Campus Buildings/*
+!resources/OS Models for Campus Buildings/*.osm
