@@ -289,6 +289,23 @@ def build_chiller_curves(p, chiller, segments, Twb, Tdb, log):
         charge_capacity, charge_power = chiller_electric_eir_charging(
             capacity, cop_ref, c_cT, c_eT, c_eP, m_dot, power, load, Pc_fan,
             Ta, Te_i, T_chg, cp_loop, cp_chg)
+        chiller["charge_capacity"].append(charge_capacity)
+        chiller["charge_power"].append(charge_power)
+        if charge_capacity > 100:
+            chiller["charge_timesteps"].append(t+1)
+
+        # Check for negative charge power coefficients
+        neg_count = 0
+        for v in chiller["charge_power"]:
+            if v < 0:
+                neg_count += 1
+        if neg_count > 0:
+            log.warning("Negative chiller power coefficients for ice " \
+                "charging occured {} times; verify curves".format(
+                neg_count))
+            log.info("This issue is often resolved by using shorter " \
+                "optimization timesteps (eg. use '-t 4') which avoids " \
+                "the impact of part-load factors from simulation.")
 
     return chiller
 #-------------------------------------------------------------------------------
