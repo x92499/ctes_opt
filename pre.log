@@ -1,5 +1,5 @@
 INFO: Logging initialized
-INFO: File: 'pre.py'. Start time: Fri May 14 16:49:33 2021
+INFO: File: 'pre.py'. Start time: Sat May 15 21:21:36 2021
 INFO: 
  **Getting user arguments from the command line**
 INFO: Performming performance curve pre-processing step
@@ -23,3 +23,25 @@ INFO:  * 8760 drybulb temperatures
 INFO: Weather file: C:\GitHub\ctes_opt\mines_example/building_sim\2019 NREL Wx.epw
 INFO: 
  **Performing the performance curve pre-processor**
+INFO: Loading data from 'buildings.p' and 'plant_loops.p'
+INFO: 
+ Processing plant loop: CP6
+INFO: Processing chiller: CHILLER - WATER COOLED
+INFO: Chiller data loaded from C:\GitHub\ctes_opt\mines_example/district_sim\CP6_chiller00.dat
+WARNING:  The capacity as a function of temperature curve for chiller 'CHILLER - WATER COOLED' does not extend below freezing. The curve will be extrapolated by this script. Users must verify the validity of this assumption.
+WARNING:  The EIR as a function of temperature curve for chiller 'CHILLER - WATER COOLED' does not extend below  freezing. The curve will be extrapolated by this script. Users must verify the validity of this assumption.
+INFO:  Building segmented chiller load reduction curve (Discharge)
+INFO: 
+ Processing plant loop: CP7
+INFO: Processing chiller: CHILLER - WATER COOLED
+INFO: Chiller data loaded from C:\GitHub\ctes_opt\mines_example/district_sim\CP7_chiller00.dat
+WARNING:  The capacity as a function of temperature curve for chiller 'CHILLER - WATER COOLED' does not extend below freezing. The curve will be extrapolated by this script. Users must verify the validity of this assumption.
+WARNING:  The EIR as a function of temperature curve for chiller 'CHILLER - WATER COOLED' does not extend below  freezing. The curve will be extrapolated by this script. Users must verify the validity of this assumption.
+INFO:  Building segmented chiller load reduction curve (Discharge)
+INFO: 
+ Processing plant loop: Tester
+INFO: Processing chiller: CHILLER - WATER COOLED
+INFO: Chiller data loaded from C:\GitHub\ctes_opt\mines_example/building_sim\Tester_chiller0.dat
+WARNING:  The capacity as a function of temperature curve for chiller 'CHILLER - WATER COOLED' does not extend below freezing. The curve will be extrapolated by this script. Users must verify the validity of this assumption.
+WARNING:  The EIR as a function of temperature curve for chiller 'CHILLER - WATER COOLED' does not extend below  freezing. The curve will be extrapolated by this script. Users must verify the validity of this assumption.
+INFO:  Building segmented chiller load reduction curve (Discharge)

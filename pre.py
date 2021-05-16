@@ -188,28 +188,44 @@ if not curve_processor:
 # This action will be executed unless program has terminated earlier. If all
 # the building and plant loop data is previously processed, the -c flag allows
 # the program to pick up from here and not require parsing the .eso files
+log.info("\n **Performing the performance curve pre-processor**")
 if curve_processor:
-    log.info("\n **Performing the performance curve pre-processor**")
+    try:
+        buildings = pkl.load(open(os.path.join(input_path, "workspace",
+            "buildings.p"), "rb"))
+        plant_loops = pkl.load(open(os.path.join(input_path, "workspace",
+            "plant_loops.p"), "rb"))
+        log.info("Loading data from 'buildings.p' and 'plant_loops.p'")
+    except:
+        log.error("Failed to load required data. Run without '-p' flag " \
+            "or with '-b' flag first.")
+        log.info("Program terminated early!")
+        sys.exit("See log file")
+
+plant_loops = process_curves.run(buildings, plant_loops, input_path,
+    segments, Twb, Tdb, log)
 
 
-# # check buildings
+
+
+
+# check buildings
 # print("\n Buildings Check")
 # for k, v in buildings.items():
 #     for i, j in v.items():
 #         print(k,":", i, len(j))
-#
-# # check plant loops
-# print("\n Plant Loops Check")
-# for k, v in plant_loops.items():
-#     for i, j in v.items():
-#         print(k,":", i, len(j))
-#         try:
-#             for a, b in j.items():
-#                 print(a, len(b))
-#         except:
-#             pass
+
+
+for p in plant_loops:
+    print("Plant Loop: ", p)
+    print("Keys:", plant_loops[p].keys())
+    for c in plant_loops[p]:
+        try:
+            print("Chiller Keys:", plant_loops[p][c].keys())
+        except:
+            pass
 
 
 print("Finished!")
-os.system("cp pre.log {}".format(
-    os.path.join(input_path, "pre-{}.log".format(time.time()))))
+# os.system("cp pre.log {}".format(
+#     os.path.join(input_path, "pre-{}.log".format(time.time()))))

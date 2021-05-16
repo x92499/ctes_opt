@@ -1,6 +1,6 @@
 
 OS:Version,
-  {5ce84e6c-b3b9-4c2a-87d8-843d974e043a}, !- Handle
+  {40d864ea-da31-4506-869c-c60c6fb0a7f7}, !- Handle
   3.2.0;                                  !- Version Identifier
 
 OS:Schedule:Constant,
@@ -39716,19 +39716,13 @@ OS:WeatherFile,
   F0AA8FA7;                               !- Checksum
 
 OS:EnergyManagementSystem:InternalVariable,
-  {b164c2ca-8cde-4c3b-b5eb-1b3a6f48d9fd}, !- Handle
+  {55f10e76-1863-47a3-9a86-315b038c86e4}, !- Handle
   Chiller0_Nominal_Capacity,              !- Name
   90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Internal Data Index Key Name
   Chiller Nominal Capacity;               !- Internal Data Type
 
-OS:EnergyManagementSystem:InternalVariable,
-  {aa32e8e0-af4b-4716-9c45-5bc4ec0ecb0a}, !- Handle
-  Energy_Management_System_Internal_Variable_1, !- Name
-  90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Internal Data Index Key Name
-  Chiller Nominal Capacity;               !- Internal Data Type
-
 OS:EnergyManagementSystem:OutputVariable,
-  {0f2405a3-b3ab-49f5-923e-dfdde3e7adcd}, !- Handle
+  {7f185499-7750-4648-8970-398d44128412}, !- Handle
   Chiller0 Nominal Capacity,              !- Name
   Chiller0_Nominal_Capacity,              !- EMS Variable Name
   Averaged,                               !- Type of Data in Variable
@@ -39736,110 +39730,73 @@ OS:EnergyManagementSystem:OutputVariable,
   ,                                       !- EMS Program or Subroutine Name
   W;                                      !- Units
 
-OS:EnergyManagementSystem:OutputVariable,
-  {74884fe2-e3f1-47f5-ba45-0e23ab06789e}, !- Handle
-  Energy Management System Output Variable 1, !- Name
-  Chiller0_Nominal_Capacity,              !- EMS Variable Name
-  Averaged,                               !- Type of Data in Variable
-  ZoneTimestep,                           !- Update Frequency
-  ,                                       !- EMS Program or Subroutine Name
-  W;                                      !- Units
-
 OS:Output:Variable,
-  {baeba4ad-3933-42a3-b5ec-29f8bceafbf1}, !- Handle
+  {ff5ad858-a323-4ed5-aaee-82269b17bfc7}, !- Handle
   Output Variable 10,                     !- Name
   90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Key Value
   Chiller Electricity Rate,               !- Variable Name
   Timestep;                               !- Reporting Frequency
 
 OS:Output:Variable,
-  {0afb3eee-0363-47fc-bad0-1dbb536736d0}, !- Handle
+  {5b59eea6-3a9c-4f5c-81e0-6db78b92e52a}, !- Handle
   Output Variable 11,                     !- Name
   90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Key Value
-  Chiller Electricity Rate,               !- Variable Name
+  Chiller Evaporator Cooling Rate,        !- Variable Name
   Timestep;                               !- Reporting Frequency
 
 OS:Output:Variable,
-  {eaf3c56c-367b-4987-ab78-56bd0262e370}, !- Handle
+  {82d411ef-605c-4d25-8f24-a3890f638cbd}, !- Handle
   Output Variable 12,                     !- Name
   90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Key Value
-  Chiller Evaporator Cooling Rate,        !- Variable Name
+  Chiller Evaporator Inlet Temperature,   !- Variable Name
   Timestep;                               !- Reporting Frequency
 
 OS:Output:Variable,
-  {349c0393-01e2-4991-8a52-f643b550e0c3}, !- Handle
+  {572e9677-1c3f-4716-b705-b647aac33ef3}, !- Handle
   Output Variable 13,                     !- Name
   90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Key Value
-  Chiller Evaporator Cooling Rate,        !- Variable Name
+  Chiller Evaporator Mass Flow Rate,      !- Variable Name
   Timestep;                               !- Reporting Frequency
 
 OS:Output:Variable,
-  {9c88dbe7-6f24-4baa-a7e7-9b1c3c3c56e6}, !- Handle
+  {4c8e9bd0-4a63-47d0-ab44-3bedb4b67440}, !- Handle
   Output Variable 14,                     !- Name
   90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Key Value
-  Chiller Evaporator Inlet Temperature,   !- Variable Name
+  Chiller Part Load Ratio,                !- Variable Name
   Timestep;                               !- Reporting Frequency
 
 OS:Output:Variable,
-  {ef33c57a-9af0-483b-a677-dab92c38c692}, !- Handle
+  {be2f2f0d-c2c1-457a-9209-a7c7aeddd34e}, !- Handle
   Output Variable 15,                     !- Name
   90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Key Value
-  Chiller Evaporator Inlet Temperature,   !- Variable Name
+  Chiller Nominal Capacity,               !- Variable Name
   Timestep;                               !- Reporting Frequency
 
 OS:Output:Variable,
-  {49d19f97-e25d-4ce5-a134-02185a25b6d5}, !- Handle
+  {9cd38fc0-a08a-4deb-b1a4-bd725d21f0a8}, !- Handle
   Output Variable 16,                     !- Name
   90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Key Value
-  Chiller Evaporator Mass Flow Rate,      !- Variable Name
+  Disctrict Cooling Chilled Water Rate,   !- Variable Name
   Timestep;                               !- Reporting Frequency
 
 OS:Output:Variable,
-  {9309bc58-5b6c-4411-a509-05ffefb0502d}, !- Handle
+  {f8e9de62-9cad-4e8c-b1a9-1152444bb5a7}, !- Handle
   Output Variable 17,                     !- Name
   90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Key Value
-  Chiller Evaporator Mass Flow Rate,      !- Variable Name
-  Timestep;                               !- Reporting Frequency
-
-OS:Output:Variable,
-  {a9962896-2506-4598-8d84-3f8ba3b4ce2e}, !- Handle
-  Output Variable 18,                     !- Name
-  90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Key Value
-  Disctrict Cooling Chilled Water Rate,   !- Variable Name
-  Timestep;                               !- Reporting Frequency
-
-OS:Output:Variable,
-  {4814f67d-9a8a-4005-aebc-d4331f10552f}, !- Handle
-  Output Variable 19,                     !- Name
-  90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Key Value
-  Disctrict Cooling Chilled Water Rate,   !- Variable Name
-  Timestep;                               !- Reporting Frequency
-
-OS:Output:Variable,
-  {1b0c6241-0fd4-4cd2-838c-5953bab4e9c4}, !- Handle
-  Output Variable 20,                     !- Name
-  90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Key Value
   District Cooling Mass Flow Rate,        !- Variable Name
   Timestep;                               !- Reporting Frequency
 
-OS:Output:Variable,
-  {024554e8-df79-4528-8fac-831922555124}, !- Handle
-  Output Variable 21,                     !- Name
-  90.1-2010 AirCooled WithCondenser  Chiller 0 273tons 1.3kW/ton, !- Key Value
-  District Cooling Mass Flow Rate,        !- Variable Name
-  Timestep;                               !- Reporting Frequency
+OS:Output:EnergyManagementSystem,
+  {8529e567-48ea-40e9-ba8e-1d2fbc8b8624}, !- Handle
+  Output Energy Management System 1,      !- Name
+  Verbose,                                !- Actuator Availability Dictionary Reporting
+  Verbose,                                !- Internal Variable Availability Dictionary Reporting
+  None;                                   !- EMS Runtime Language Debug Output Level
 
 OS:Output:Variable,
-  {a9c0e879-f329-4d17-a259-e19e0305bfc9}, !- Handle
+  {04f38a59-03d2-4fd0-8dd2-e5e280413533}, !- Handle
   Chiller0 Nominal Capacity,              !- Name
   ,                                       !- Key Value
   Chiller0 Nominal Capacity,              !- Variable Name
-  RunPeriod;                              !- Reporting Frequency
-
-OS:Output:Variable,
-  {87edd02e-c663-448c-907d-76f9189032b8}, !- Handle
-  Output Variable 22,                     !- Name
-  ,                                       !- Key Value
-  Chiller0 Nominal Capacity,              !- Variable Name
-  RunPeriod;                              !- Reporting Frequency
+  Timestep;                               !- Reporting Frequency
 

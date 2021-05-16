@@ -94,12 +94,10 @@ class ExposeChillers < OpenStudio::Measure::ModelMeasure
       n = OpenStudio::Model::EnergyManagementSystemInternalVariable.new(model, "Chiller Nominal Capacity")
       n.setName("Chiller#{idx}_Nominal_Capacity")
       n.setInternalDataIndexKeyName(c.name.to_s)
-      model.addObject(n)
 
       n = OpenStudio::Model::EnergyManagementSystemOutputVariable.new(model, "Chiller#{idx}_Nominal_Capacity")
       n.setName("Chiller#{idx} Nominal Capacity")
       n.setUnits("W")
-      model.addObject(n)
 
       # write available data to file
       file = CSV.open("chiller#{idx}.dat", 'w') do |wrt|
@@ -131,6 +129,8 @@ class ExposeChillers < OpenStudio::Measure::ModelMeasure
               "Chiller Evaporator Cooling Rate",
               "Chiller Evaporator Inlet Temperature",
               "Chiller Evaporator Mass Flow Rate",
+              "Chiller Part Load Ratio",
+              "Chiller Nominal Capacity",
               "Disctrict Cooling Chilled Water Rate",
               "District Cooling Mass Flow Rate"]
 
@@ -138,14 +138,19 @@ class ExposeChillers < OpenStudio::Measure::ModelMeasure
         n = OpenStudio::Model::OutputVariable.new(v, model)
         n.setKeyValue(chiller_names[idx])
         n.setReportingFrequency("Timestep")
-        model.addObject(n)
       end
+
+      # add EMS output dictionary reporting for internal variables
+      n = model.getOutputEnergyManagementSystem
+      n.setActuatorAvailabilityDictionaryReporting("Verbose")
+      n.setInternalVariableAvailabilityDictionaryReporting("Verbose")
+      n.setEMSRuntimeLanguageDebugOutputLevel("None")
+      puts(n)
 
       # add output variable from EMS
       n = OpenStudio::Model::OutputVariable.new("Chiller#{idx} Nominal Capacity", model)
       n.setName("Chiller#{idx} Nominal Capacity")
-      n.setReportingFrequency("RunPeriod")
-      model.addObject(n)
+      n.setReportingFrequency("Timestep")
 
       idx += 1
 

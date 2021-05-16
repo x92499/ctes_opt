@@ -124,10 +124,10 @@ def get_chiller_data(loop, dd, data, ts_opt, aggregate, interpolate, log):
     try:
         for c in chiller_names:
             key = dd.index["TimeStep", c, "Chiller Part Load Ratio"]
-            loop[c]["part_load_ratoi"] = get_timestep_values(
+            loop[c]["part_load_ratio"] = get_timestep_values(
                 data[key], ts_opt, aggregate, interpolate, False, log)
     except:
-        missing_variable("Chiller Part Load Ratio [-]", False, log)
+        missing_variable("Chiller Part Load Ratio [-]", True, log)
 
     # Get chiller electric power consumption
     try:
@@ -289,7 +289,7 @@ def plants(input_path, buildings, plant_loops, ts_opt, log):
             log.error("Failed to find or load .eso file for specified plant")
             log.info("Program terminated early!")
             sys.exit("See log file")
-            
+
         # Get total facility electricity and check file length
         key = dd.index["TimeStep", None, "Electricity:Facility"]
         interpolate, aggregate = check_file_length(data, key, ts_opt, log)

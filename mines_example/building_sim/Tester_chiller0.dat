@@ -1,0 +1,20 @@
+Chiller - Water Cooled
+5.5,0.1,6.67,29.4
+AirCooled,0.0
+0.258,0.0389,-0.000217,0.0469,-0.000943,-0.000343
+5.0,10.0,24.0,35.0,"",""
+0.934,-0.0582,0.0045,0.00243,0.000486,-0.00122
+5.0,10.0,24.0,35.0,"",""
+0.222903,0.313387,0.46371
+0.0,1.0,"",""
+
+"Key:
+        Chiller Name
+        Reference COP, Design Evaporator Leaving Fluid Temp, Design Condenser Entering Fluid Temp
+        Condenser Type, Condenser Fan Power Ratio
+        Capacity as a Function of Temperature Coefficients (BiQuadratic)
+        Capacity as a Function of Temperature Limits (x min/max, y min/max, output min/max)
+        EIR as a Function of Temperature Coefficients (BiQuadratic)
+        EIR as a Function of Temperature Limits (x min/max, y min/max, output mix/max)
+        EIR as a Function fo PLR Coefficiets (Quadratic)
+        EIR as a Function of PLR Limits (x min/ max, output min/max)"

@@ -56,7 +56,7 @@ OS:Sizing:Parameters,
 
 OS:Timestep,
   {c4477f2c-980a-4140-b079-a76d36537ba7}, !- Handle
-  6;                                      !- Number of Timesteps per Hour
+  4;                                      !- Number of Timesteps per Hour
 
 OS:ShadowCalculation,
   {bd8503da-25b4-419c-9330-e340c454fb0b}, !- Handle
