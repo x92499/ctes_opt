@@ -72,7 +72,6 @@ def run(input_path, community, plant_loops, buildings, erates, segments,
         print(False)
         os.mkdir(os.path.join(input_path, "ampl_files"))
     ampl_path = os.path.join(input_path, "ampl_files")
-    print("here!")
 
     # Get just the chillers for convenience
     chillers = {}
@@ -89,11 +88,12 @@ def run(input_path, community, plant_loops, buildings, erates, segments,
     # Write variables that have single values per timestep:
     for idx in range(len(chillers)):
         # Sets for partial, full, and charge timesteps
-        sets = []
-        sets.append(chillers[idx]["partial_storage_timesteps"])
-        sets.append(chillers[idx]["full_storage_timesteps"])
-        sets.append(chillers[idx]["charge_timesteps"])
-        multiline_lists(sets, ampl_path, "Tsets{}.dat".format(idx), True, log)
+        with open(os.path.join(ampl_path, "Tsets{}.dat".format(idx)),
+            "w", newline="") as f:
+            wtr = csv.writer(f, dialect="excel")
+            wtr.writerow(chillers[idx]["partial_storage_timesteps"])
+            wtr.writerow(chillers[idx]["full_storage_timesteps"])
+            wtr.writerow(chillers[idx]["charge_timesteps"])
 
         # Cooling load served by plant at each timestep (Wth -> kWth)
         vals = [round(v / 1000, 2) for v in chillers[idx]["evap_cooling_rate"]]

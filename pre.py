@@ -79,11 +79,14 @@ except:
 if reset:
     log.warning("\n **Performing data reset. Program will terminate**")
 
-    # delete the workspace folder
+    # delete the workspace folder contents
     for file in os.listdir(os.path.join(input_path, "workspace")):
         os.remove(os.path.join(input_path, "workspace", file))
+    # delete the ampl_files folder contents
+    for file in os.listdir(os.path.join(input_path, "ampl_files")):
+        os.remove(os.path.join(input_path, "ampl_files", file))
 
-    log.info("Emptied the contents of the workspace folder.")
+    log.info("Emptied the contents of the workspace and ample_files folders.")
     log.warning("Terminated after file reset")
     sys.exit("Deleted contents of workspace folder.")
 
