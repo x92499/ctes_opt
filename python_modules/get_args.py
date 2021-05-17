@@ -14,8 +14,10 @@ def run(opts, args, log):
     # set defaults
     buildings_processor = False
     curve_processor = False
+    erate_processor = False
     plant_loops_processor = False
     reset = False
+    transfer = False
     input_path = os.path.join(os.getcwd())
     segments = 3
     ts_opt = 1
@@ -29,15 +31,21 @@ def run(opts, args, log):
             log.info("Performing building pre-processing step")
             buildings_processor = True
         elif opt in ("-c", "--curve_processor"):
-            print("Performming performance curve pre-processing step")
-            log.info("Performming performance curve pre-processing step")
+            print("Performing performance curve pre-processing step")
+            log.info("Performing performance curve pre-processing step")
             curve_processor = True
+        elif opt in ("-e", "--erate_processor"):
+            print("Performing electricity rate pre-processing step")
+            log.info("Performing electricity rate pre-processing step")
+            erate_processor = True
         elif opt in ("-p", "--plant_loops_processor"):
-            print("Performming district plant loops pre-processing step")
-            log.info("Performming district plant loops pre-processing step")
+            print("Performing district plant loops pre-processing step")
+            log.info("Performing district plant loops pre-processing step")
             plant_loops_processor = True
         elif opt in ("-r", "--reset"):
             reset = True
+        elif opt in ("-x", "--transfer"):
+            transfer = True
         elif opt in ("-i", "--input_path"):
             if arg[1] == ":":
                 input_path = arg
@@ -58,11 +66,13 @@ def run(opts, args, log):
     # Log argument values
     log.info("buildings_processor = {}".format(buildings_processor))
     log.info("curve_processor = {}".format(curve_processor))
+    log.info("erate_processor = {}".format(erate_processor))
     log.info("plant_loops_processor = {}".format(plant_loops_processor))
     log.info("reset = {}".format(reset))
+    log.info("transfer = {}".format(transfer))
     log.info("input_path = {}".format(input_path))
     log.info("segments = {}".format(segments))
     log.info("ts_opt = {}".format(ts_opt))
 
-    return [buildings_processor, curve_processor, plant_loops_processor,
-        reset, input_path, segments, ts_opt]
+    return [buildings_processor, curve_processor, erate_processor,
+        plant_loops_processor, reset, transfer, input_path, segments, ts_opt]

@@ -1,4 +1,5 @@
 measures/expose_chillers/tests/**/
 resources/OS Models for Campus Buildings/**/
 resources/ITStest/
+python_modules/xfer.py
 __pycache__

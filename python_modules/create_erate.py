@@ -2,7 +2,7 @@
 # Generates 15-minute electric rate pricing ($ per kWh)
 # Karl Heine, Colorado School of Mines, kheine@mines.edu
 # Original: March 2020
-## REVISED March 2021 for Central TES Optimization
+## REVISED May 2021 for Central TES Optimization
 
 #### THIS IS A WORK IN PROGRESS#####
 ### Might be good to use the URDB format and API????####
@@ -15,24 +15,20 @@ import random
 import sys
 
 def run(ts_opt, log):
-    # log status
-    log.info("**Creating Electricity Rate**")
-
-    # set up e_rates hash/dict:
-    erates = {
-        "energy_cost": [],
+    # set up eSrates hash/dict:
+    erates = {"energy_cost": [],
         "demand_cost": [],
         "demand_pd_ts_ct": [],
-        "demand_pd_timesteps": [],
-        "baseline_demand": [],
-        "baseline_energy": None,
-        "baseline_total": None
+        "demand_pd_timesteps": []
     }
 
     ## set up pricing structure (possibly move?)
     #Time of Use vs. Real Time Pricing
     tou = True
     dmd = True
+
+    log.info(" Energy charges are time-variant over the year: {}".format(tou))
+    log.info(" Demand charges are present: {}".format(dmd))
 
     # Mines Energy Rates, as provided by Mohammad
     # Electricity rates and peak periods
@@ -54,28 +50,17 @@ def run(ts_opt, log):
     # d_months.extend([[i] for i in range(3,10)])
     # d_days.extend([[4] for i in range(3,10)])
     # d_peak.extend([list(range(13,19)) for i in range(3,10)])
+    # log.info(" Demand response events are signaled via demand charges")
 
     # Special energy charge periods
     # e_tou.extend([0.1905111])
     # e_months.append([8])
     # e_dom.append([25])
     # e_peak.extend([list(range(13,19))])
+    # log.info(" Demand response events are signaled via TOU energy charges")
 
     # Determine total number of timesteps from ts per hour
     opt_steps = int(8760 * ts_opt)
-
-    # # Check workflow prerequisites
-    # cwd = os.getcwd()
-    # if not os.path.isfile(cwd + '/preprocess.log'):
-    #     print("Ooops. Run 'buildings.py' and 'utss.py' first.")
-    #     logging.error("Electricity Rate preprocessor did not run. Requires 'buildings.py' and 'utss.py' first.")
-    #     sys.exit()
-    #
-    # # Specify appropriate weather file
-    # wx_path = cwd + '/weather/'
-    # wx_file = 'USA_TX_El.Paso.Intl.AP.722700_TMY3.epw'
-    # pre_path = cwd + '/preprocess/'
-    # amp_path = cwd + '/ampl inputs/'
 
     ## TOU Calcs
     if tou:
@@ -100,24 +85,15 @@ def run(ts_opt, log):
                     print(h, e_peak[j])
                     print(dom, e_dom[j])
                     print(m, e_months[j])
-                    sys.exit()
+                    log.error("Failed to generate TOU energy rates.")
+                    log.info("Program terminated early!")
+                    sys.exit("See log file.")
 
         erates["energy_cost"].extend(rate)
 
-        # file1 = open('ampl inputs/cost_elec.dat', 'w', newline='')
-        # with file1:
-        #     writer = csv.writer(file1, dialect='excel')
-        #     for t in range(opt_steps):
-        #         writer.writerow([round(rate[t],5)])
-
-        # if not dmd:
-        #     file0 = open(amp_path + 'fixed_params.dat', 'a', newline='')
-        #     with file0:
-        #         wrt = csv.writer(file0, dialect='excel')
-        #         wrt.writerow([0])
-        #         wrt.writerow([])
-        #         wrt.writerow([])
-        #     log.info("The fixed parameter file was successfully updated.")
+        # log demand periods:
+        log.info(" {} different energy charge values were used".format(
+            len(e_tou)))
 
     ## Demand period timestep assignments
     if dmd:
@@ -138,11 +114,12 @@ def run(ts_opt, log):
         for s in range(len(d_sets)):
             d_counts[s] = len(d_sets[s])
 
-        print(d_counts)
-
         erates["demand_cost"].extend(d_cost)
         erates["demand_pd_ts_ct"].extend(d_counts)
         erates["demand_pd_timesteps"].extend(d_sets)
+
+        # log demand periods:
+        log.info(" {} demand periods were created".format(len(d_sets)))
 
     return erates
 

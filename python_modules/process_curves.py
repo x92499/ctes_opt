@@ -95,7 +95,6 @@ def chiller_electric_eir(Q_ref, cop_ref, plr_min, c_cT, c_eT, c_eP, m_dot,
     for v in Te_o:
         val = BiQuad(c_cT, v, Tdb)
         cap_fT.append(val)
-
     # Generate Eir_fPLR curve
     Te_o_max = Tl_s
     plr_min_idx = 0
@@ -108,14 +107,12 @@ def chiller_electric_eir(Q_ref, cop_ref, plr_min, c_cT, c_eT, c_eP, m_dot,
             Te_o_max = Te_o[i-1]
             plr_min_idx = i-1
             break
-
     ## Return early if calculated PLR is below minimum or too close for calcs
     # buffer = 5 / 100 data points = 5%
     if plr_min_idx < 5:
         slopes = [0 for s in range(segs)]
         ranges = [0 for s in range(segs)]
         return slopes, ranges
-
     ## Redefine the Te_o range to only encompass Te_o_max
     Te_o = np.linspace(Tl_s, Te_o_max, 30)
     cap_fT = []
@@ -135,35 +132,27 @@ def chiller_electric_eir(Q_ref, cop_ref, plr_min, c_cT, c_eT, c_eP, m_dot,
             slopes = [0 for s in range(segs)]
             ranges = [0 for s in range(segs)]
             return slopes, ranges
-
     for v in plr:
         val = Quad(c_eP, v)
         eir_fP.append(val)
-
     # Generate Eir_fT curve
     for v in Te_o:
         val = BiQuad(c_eT, v, Tdb)
         eir_fT.append(val)
-
     ## Get chiller power - evaporator component
     for i in range(len(Te_o)):
         Pe.append(Q_av[i] / cop_ref * eir_fT[i] * eir_fP[i])
-
     ## Get chiller power - condensor component
     Pc = [Pe[i] * Pc_fan for i in range(len(Te_o))]
-
     ## Get total chiller power (modified to be a change in chiller power as load is shed)
     P = (Pe[0] + Pc[0]) - [Pe[i] + Pc[i] for i in range(len(Te_o))]
-
     ## Get load shed from Te_o
     Y = m_dot * cp * (Te_i - Te_o)
     Y = Y[::-1]
-
     # Get linear regression over region above min plr
     seg_sz = len(Te_o)//segs
     slopes = []
     ranges = []
-
     for i in range(segs):
         ranges.append(Y[(i+1)*seg_sz-1] - Y[i*seg_sz])
         slopes.append(np.polyfit(Y[i*seg_sz:(i+1)*seg_sz+1], P[i*seg_sz:(i+1)*seg_sz+1], 1)[0])
@@ -178,17 +167,13 @@ def chiller_electric_eir_charging(Q_ref, cop_ref, c_cT, c_eT, c_eP, m_dot,
 
     # Define cp ratio
     cp_ratio = cp_chg/cp_loop
-
     # Penalize condenser (indirectly the pumps...)
     Pc_fan += 0.05
-
     # Find Q_av at charging conditions
     cap_fT = BiQuad(c_cT, Te_chg, Tdb)
     Q_av = Q_ref * cap_fT
-
     # Determine the excess capacity available for ice making at t
     chg_av = max([Q_av - (Q_current / cp_ratio), 0])
-
     # Find Power required at ice charging conditions (min 1 kW)
     eir_fT = BiQuad(c_eT, Te_chg, Tdb)
     eir_fP = Quad(c_eP, 1.0)
@@ -281,9 +266,9 @@ def build_chiller_curves(p, chiller, segments, Twb, Tdb, log):
         chiller["segment_ranges"].append(ranges)
         # Build indexed sets for full/partial storage
         if load > 0:
-            chiller["full_storage_timesteps"].append(t+1)
+            chiller["full_storage_timesteps"].append(int(t+1))
             if sum(ranges) > 0:
-                chiller["partial_storage_timesteps"].append(t+1)
+                chiller["partial_storage_timesteps"].append(int(t+1))
 
         ## Get chiller performance at charging conditions
         charge_capacity, charge_power = chiller_electric_eir_charging(
@@ -291,6 +276,7 @@ def build_chiller_curves(p, chiller, segments, Twb, Tdb, log):
             Ta, Te_i, T_chg, cp_loop, cp_chg)
         chiller["charge_capacity"].append(charge_capacity)
         chiller["charge_power"].append(charge_power)
+        # Set minimum charging capacity to > 100 W_th
         if charge_capacity > 100:
             chiller["charge_timesteps"].append(t+1)
 
@@ -334,11 +320,5 @@ def run(buildings, plant_loops, input_path, segments, Twb, Tdb, log):
             plant_loops[p][c] = build_chiller_curves(p, plant_loops[p][c],
                 segments, Twb, Tdb, log)
 
-
-            # with open("check_ranges.csv", "w", newline="") as f:
-            #     wtr = csv.writer(f, dialect="excel")
-            #     for v in plant_loops[p][c]["segment_ranges"]:
-            #         wtr.writerow([v])
-            # sys.exit()
 
     return plant_loops

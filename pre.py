@@ -31,7 +31,14 @@ import get_args
 import get_districts
 import get_wx
 import get_sim_data
+import aggregator
 import process_curves
+import get_ctes
+import create_erate
+import write_files
+import xfer
+import make_plots
+
 #-------------------------------------------------------------------------------
 ## Main Program
 #-------------------------------------------------------------------------------
@@ -48,12 +55,14 @@ start_time = time.time()
 log.info("\n **Getting user arguments from the command line**")
 argv = sys.argv[1:]
 try:
-    opts, args = getopt.getopt(argv, "hbcpri:s:t:", [
+    opts, args = getopt.getopt(argv, "hbecprxi:s:t:", [
         "help"
         "buildings_processor",
         "curve_processor",
+        "erate_processor",
         "plant_loops_processor",
         "reset",
+        "transfer",
         "input_path=",
         "segments=",
         "ts_opt="])
@@ -62,8 +71,9 @@ except:
     log.info("Program terminated early!")
     sys.exit("Error. See log file")
 
-[buildings_processor, curve_processor, plant_loops_processor, reset,
-    input_path, segments, ts_opt] = list(get_args.run(opts, args, log))
+[buildings_processor, curve_processor, erate_processor, plant_loops_processor,
+    reset, transfer, input_path, segments, ts_opt] = list(get_args.run(
+        opts, args, log))
 #-------------------------------------------------------------------------------
 ## Execute reset if specified
 if reset:
@@ -109,19 +119,17 @@ else:
 ## Get building data from .eso files
 # This action will be executed unless specifically excluded by the -c or -p
 # flags.
-if not curve_processor and not plant_loops_processor:
+if not curve_processor and not plant_loops_processor and not erate_processor:
     log.info("\n **Performing the building file pre-processor**")
 
     buildings, plant_loops = get_sim_data.bldgs(
         input_path, buildings, plant_loops, ts_opt, log)
 
-    # Write dictionaries to file
+    # Write dictionaries to file via pickle dump
     try:
         os.path.isdir(os.path.join(input_path, "workspace"))
     except:
         os.mkdir(os.path.join(input_path, "workspace"))
-
-    # Pickle dump
     pkl.dump(buildings, open(os.path.join(
         input_path, "workspace", "buildings.p"), "wb"))
     pkl.dump(plant_loops, open(os.path.join(
@@ -154,7 +162,7 @@ if not curve_processor and not plant_loops_processor:
 ## Process plant loops to get chiller performance curve data
 # This action will be executed unless specifically excluded by the -c flag.
 # If -b is present, the program will terminate prior to this step.
-if not curve_processor:
+if not curve_processor and not erate_processor:
     log.info("\n **Performing the plant loop pre-processor**")
 
     # Load buildings.p and plant_loops.p if the -p flag is provided
@@ -172,48 +180,36 @@ if not curve_processor:
 
     plant_loops = get_sim_data.plants(input_path, buildings, plant_loops,
         ts_opt, log)
-
-    # Pickle dump
-    pkl.dump(plant_loops, open(os.path.join(
-        input_path, "workspace", "plant_loops.p"), "wb"))
-    log.info("plant_loops.p saved to workspace folder")
-
-    # Perform -p only tasks
-    if plant_loops_processor:
-        # Terminate early
-        log.warning("Terminated at completion of plant loops processor")
-        sys.exit("Terminated at completion of plant loops processor")
 #-------------------------------------------------------------------------------
 ## Process performance curves
 # This action will be executed unless program has terminated earlier. If all
 # the building and plant loop data is previously processed, the -c flag allows
 # the program to pick up from here and not require parsing the .eso files
 log.info("\n **Performing the performance curve pre-processor**")
-if curve_processor:
-    try:
-        buildings = pkl.load(open(os.path.join(input_path, "workspace",
-            "buildings.p"), "rb"))
-        plant_loops = pkl.load(open(os.path.join(input_path, "workspace",
-            "plant_loops.p"), "rb"))
-        log.info("Loading data from 'buildings.p' and 'plant_loops.p'")
-    except:
-        log.error("Failed to load required data. Run without '-p' flag " \
-            "or with '-b' flag first.")
-        log.info("Program terminated early!")
-        sys.exit("See log file")
-
 plant_loops = process_curves.run(buildings, plant_loops, input_path,
     segments, Twb, Tdb, log)
-
-
-
+#-------------------------------------------------------------------------------
+## Obtain CTES performance characteristics
+# This action is always performed unless terminated early by -b or -p flags
+log.info("\n *Performing the thermal storage preprocessor*")
+plant_loops = get_ctes.run(plant_loops, ts_opt, type, log)
+#-------------------------------------------------------------------------------
+## Generate energy cost profile including Demand Response events
+log.info("\n *Creating electricity rate*")
+erates = create_erate.run(ts_opt, log)
+#-------------------------------------------------------------------------------
+## Write parameter files for solver
+log.info("\n *Writing parameter files for solver*")
+community = aggregator.run(buildings, plant_loops, ts_opt, log)
+write_files.run(input_path, community, plant_loops, buildings, erates,
+    segments, ts_opt, log)
 
 
 # check buildings
-# print("\n Buildings Check")
-# for k, v in buildings.items():
-#     for i, j in v.items():
-#         print(k,":", i, len(j))
+print("\n Buildings Check")
+for k, v in buildings.items():
+    for i, j in v.items():
+        print(k,":", i, len(j))
 
 
 for p in plant_loops:
@@ -224,7 +220,19 @@ for p in plant_loops:
             print("Chiller Keys:", plant_loops[p][c].keys())
         except:
             pass
+        if c not in ["district_cooling_load", "district_mass_flow",
+            "total_power"]:
+            print(plant_loops[p][c]["ctes"].keys())
 
+# Transfer files to remote server if desired
+if transfer:
+    if os.path.isfile("python_modules/xfer.py"):
+        log.info("\n *Transfer script found. Executing scp to remote server*")
+        xfer.send(input_path)
+    else:
+        log.warning("Transfer flag cannot be used without a remote server " \
+            "destination file. 'xfer.py' is a private script ")
+        log.info("No file transfers were executed")
 
 print("Finished!")
 # os.system("cp pre.log {}".format(
