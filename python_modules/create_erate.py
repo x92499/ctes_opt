@@ -19,7 +19,8 @@ def run(ts_opt, log):
     erates = {"energy_cost": [],
         "demand_cost": [],
         "demand_pd_ts_ct": [],
-        "demand_pd_timesteps": []
+        "demand_pd_timesteps": [],
+        "DR_timesteps": []
     }
 
     ## set up pricing structure (possibly move?)
@@ -53,11 +54,11 @@ def run(ts_opt, log):
     # log.info(" Demand response events are signaled via demand charges")
 
     # Special energy charge periods
-    # e_tou.extend([0.1905111])
-    # e_months.append([8])
-    # e_dom.append([25])
-    # e_peak.extend([list(range(13,19))])
-    # log.info(" Demand response events are signaled via TOU energy charges")
+    e_tou.extend([0.1905111])
+    e_months.append([5,6,7,8,9,10])
+    e_dom.append([12,25])
+    e_peak.extend([list(range(13,19))])
+    log.info(" Demand response events are signaled via TOU energy charges")
 
     # Determine total number of timesteps from ts per hour
     opt_steps = int(8760 * ts_opt)
@@ -81,6 +82,8 @@ def run(ts_opt, log):
                         # Add time-of-day escalating perturbations
                         perturb = (h % 23) * 0.0001
                         rate[t] = e_tou[j] + perturb
+                        if rate[t] > 0.18:
+                            erates["DR_timesteps"].append(t + 1)
                 except:
                     print(h, e_peak[j])
                     print(dom, e_dom[j])

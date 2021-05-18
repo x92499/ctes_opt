@@ -1,6 +1,5 @@
-mines_example/ampl_files/
+__pycache__
 measures/expose_chillers/tests/**/
 python_modules/xfer.py
-__pycache__
 resources/OS Models for Campus Buildings/**/
 resources/ITStest/

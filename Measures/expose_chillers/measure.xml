@@ -3,8 +3,8 @@
   <schema_version>3.0</schema_version>
   <name>expose_chillers</name>
   <uid>9f92068a-9a34-43aa-b44b-59330172b57c</uid>
-  <version_id>4a7636b5-620e-416f-b854-bcfbf99ae401</version_id>
-  <version_modified>20210516T020012Z</version_modified>
+  <version_id>d73ef021-cee5-48a0-9240-5a9e5b10048d</version_id>
+  <version_modified>20210518T013127Z</version_modified>
   <xml_checksum>3075184D</xml_checksum>
   <class_name>ExposeChillers</class_name>
   <display_name>Expose Chillers</display_name>
@@ -113,7 +113,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>8A37A90B</checksum>
+      <checksum>C9CD441A</checksum>
     </file>
   </files>
 </measure>

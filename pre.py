@@ -15,7 +15,6 @@
 # Get District Assignments
 # Get Building Energy Use Data
 
-
 ## Imports
 import csv
 import getopt
@@ -88,7 +87,7 @@ if reset:
 
     log.info("Emptied the contents of the workspace and ample_files folders.")
     log.warning("Terminated after file reset")
-    sys.exit("Deleted contents of workspace folder.")
+    sys.exit("Performed file reset.")
 
 #-------------------------------------------------------------------------------
 ## Get district assignments for building files
@@ -148,16 +147,16 @@ if not curve_processor and not plant_loops_processor and not erate_processor:
                     "{}_load.csv".format(p)), "w", newline="") as f:
                     wtr = csv.writer(f, dialect="excel")
                     for v in plant_loops[p]["district_cooling_load"]:
-                        wtr.writerow([v])
+                        wtr.writerow([-v])
+                max_flow = round(max(plant_loops[p]["district_mass_flow"]), 3)
                 with open(os.path.join(input_path, "workspace",
                     "{}_flow.csv".format(p)), "w", newline="") as f:
                     wtr = csv.writer(f, dialect="excel")
                     for v in plant_loops[p]["district_mass_flow"]:
-                        wtr.writerow([v])
-                max_flow = round(max(plant_loops[p]["district_mass_flow"]), 3)
-                log.info("The peak mass flow rate for this plant is {} " \
+                        wtr.writerow([min(v / max_flow, 1.0)])
+                log.info("The peak mass flow rate for plant {} is {} " \
                     "[kg/s] or ~{} [m3/s]".format(
-                        max_flow, max_flow / 1000))
+                        p, max_flow, max_flow / 1000))
         # Terminate early
         log.warning("Terminated at completion of buildings processor")
         sys.exit("Terminated at completion of buildings processor")
@@ -183,6 +182,13 @@ if not curve_processor and not erate_processor:
 
     plant_loops = get_sim_data.plants(input_path, buildings, plant_loops,
         ts_opt, log)
+
+    # Pickle dump
+    pkl.dump(buildings, open(os.path.join(
+        input_path, "workspace", "buildings.p"), "wb"))
+    pkl.dump(plant_loops, open(os.path.join(
+        input_path, "workspace", "plant_loops.p"), "wb"))
+    log.info("buildings.p and plant_loops.p saved to workspace folder")
 #-------------------------------------------------------------------------------
 ## Process performance curves
 # This action will be executed unless program has terminated earlier. If all
@@ -200,6 +206,7 @@ plant_loops = get_ctes.run(plant_loops, ts_opt, type, log)
 ## Generate energy cost profile including Demand Response events
 log.info("\n *Creating electricity rate*")
 erates = create_erate.run(ts_opt, log)
+print(erates["DR_timesteps"])
 #-------------------------------------------------------------------------------
 ## Write parameter files for solver
 log.info("\n *Writing parameter files for solver*")

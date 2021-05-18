@@ -1,20 +1,21 @@
 INFO: Logging initialized
-INFO: File: 'pre.py'. Start time: Mon May 17 16:29:53 2021
+INFO: File: 'pre.py'. Start time: Mon May 17 22:23:11 2021
 INFO: 
  **Getting user arguments from the command line**
+INFO: Performing district plant loops pre-processing step
 INFO: buildings_processor = False
 INFO: curve_processor = False
 INFO: erate_processor = False
-INFO: plant_loops_processor = False
+INFO: plant_loops_processor = True
 INFO: reset = False
-INFO: transfer = False
+INFO: transfer = True
 INFO: input_path = C:\GitHub\ctes_opt\mines_example/
 INFO: segments = 3
 INFO: ts_opt = 1
 INFO: 
  **Parsing the districts assignments file**
-INFO: {'Berthoud': {'plant_loop': 'CP6'}, 'Brown': {'plant_loop': 'CP6'}, 'Coolbaugh': {'plant_loop': 'CP7'}, 'CoorsTek': {'plant_loop': 'CP6'}, 'Tester': {'plant_loop': 'None'}}
-INFO: {'CP6': {}, 'CP7': {}, 'Tester': {}}
+INFO: {'Berthoud': {'plant_loop': 'CP6'}, 'Brown': {'plant_loop': 'CP6'}, 'Coolbaugh': {'plant_loop': 'CP7'}, 'CoorsTek': {'plant_loop': 'CP6'}, 'Elm': {'plant_loop': 'CP6'}, 'Hill': {'plant_loop': 'CP7'}, 'Maple': {'plant_loop': 'CP6'}, 'Starzer': {'plant_loop': 'CP6'}, 'Weaver': {'plant_loop': 'CP6'}}
+INFO: {'CP6': {}, 'CP7': {}}
 INFO: 
  **Getting the weather file**
 INFO: **Obtaining temperatures from weather file**
@@ -23,68 +24,14 @@ INFO:  * 8760 wetbulb temperatures
 INFO:  * 8760 drybulb temperatures
 INFO: Weather file: C:\GitHub\ctes_opt\mines_example/building_sim\2019 NREL Wx.epw
 INFO: 
- **Performing the building file pre-processor**
-INFO: 
- Loading Berthoud...
-INFO: ...completed
-INFO:  Building simulation data is of greater precision than the optimization timestep; data will be aggregated and averaged
-INFO:  Detected simulation timestep: 12 per hour
-INFO:  Peak Electric Demand [kW]: 196.95
-INFO:  Total Electric Energy [MWh]: 844.53
-INFO:  Peak Cooling Thermal Load [kWt]: 361.37
-INFO:  Total Cooling Thermal Energy [MWht]: 518.86
-INFO:  Maximum district cooling mass flow rate [kg/s]: 20.08
-INFO: 
- Loading Brown...
-INFO: ...completed
-INFO:  Building simulation data is of greater precision than the optimization timestep; data will be aggregated and averaged
-INFO:  Detected simulation timestep: 12 per hour
-INFO:  Peak Electric Demand [kW]: 432.78
-INFO:  Total Electric Energy [MWh]: 2037.24
-INFO:  Peak Cooling Thermal Load [kWt]: 987.92
-INFO:  Total Cooling Thermal Energy [MWht]: 1364.23
-INFO:  Maximum district cooling mass flow rate [kg/s]: 40.51
-INFO: 
- Loading Coolbaugh...
-INFO: ...completed
-INFO:  Building simulation data is of greater precision than the optimization timestep; data will be aggregated and averaged
-INFO:  Detected simulation timestep: 12 per hour
-INFO:  Peak Electric Demand [kW]: 485.47
-INFO:  Total Electric Energy [MWh]: 2053.09
-INFO:  Peak Cooling Thermal Load [kWt]: 951.06
-INFO:  Total Cooling Thermal Energy [MWht]: 955.06
-INFO:  Maximum district cooling mass flow rate [kg/s]: 35.8
-INFO: 
- Loading CoorsTek...
-INFO: ...completed
-INFO:  Building simulation data is of greater precision than the optimization timestep; data will be aggregated and averaged
-INFO:  Detected simulation timestep: 12 per hour
-INFO:  Peak Electric Demand [kW]: 285.84
-INFO:  Total Electric Energy [MWh]: 1675.37
-INFO:  Peak Cooling Thermal Load [kWt]: 637.15
-INFO:  Total Cooling Thermal Energy [MWht]: 2473.73
-INFO:  Maximum district cooling mass flow rate [kg/s]: 69.39
-INFO: 
- Loading Tester...
-INFO: ...completed
-INFO:  Building simulation data is of greater precision than the optimization timestep; data will be aggregated and averaged
-INFO:  Detected simulation timestep: 12 per hour
-INFO:  Peak Electric Demand [kW]: 625.13
-INFO:  Total Electric Energy [MWh]: 1638.79
-INFO:  No district loop assigned. Ignoring any district cooling data in the .eso. Looking for local chiller data.
-INFO:  Chillers found: 1
-INFO:  Timestep data for optional variable 'Chiller Evaporator Outlet Temperature [C]' was not found in the .eso
-INFO:  Assuming a chilled water loop temperature of 6.67 [C] (44 [F])
-INFO: buildings.p and plant_loops.p saved to workspace folder
-INFO: 
  **Performing the plant loop pre-processor**
 INFO: 
  Loading CP6...
 INFO: ...completed
 INFO:  Building simulation data is of greater precision than the optimization timestep; data will be aggregated and averaged
-INFO:  Detected simulation timestep: 12 per hour
-INFO:  Peak Electric Demand [kW]: 625.13
-INFO:  Total Electric Energy [MWh]: 1638.79
+INFO:  Detected simulation timestep: 6 per hour
+INFO:  Peak Electric Demand [kW]: 726.21
+INFO:  Total Electric Energy [MWh]: 1999.04
 INFO:  Chillers found: 1
 INFO:  Timestep data for optional variable 'Chiller Evaporator Outlet Temperature [C]' was not found in the .eso
 INFO:  Assuming a chilled water loop temperature of 6.67 [C] (44 [F])
@@ -93,31 +40,25 @@ INFO:
 INFO: ...completed
 INFO:  Building simulation data is of greater precision than the optimization timestep; data will be aggregated and averaged
 INFO:  Detected simulation timestep: 12 per hour
-INFO:  Peak Electric Demand [kW]: 385.91
-INFO:  Total Electric Energy [MWh]: 983.4
+INFO:  Peak Electric Demand [kW]: 371.84
+INFO:  Total Electric Energy [MWh]: 869.8
 INFO:  Chillers found: 1
 INFO:  Timestep data for optional variable 'Chiller Evaporator Outlet Temperature [C]' was not found in the .eso
 INFO:  Assuming a chilled water loop temperature of 6.67 [C] (44 [F])
+INFO: buildings.p and plant_loops.p saved to workspace folder
 INFO: 
  **Performing the performance curve pre-processor**
 INFO: 
  Processing plant loop: CP6
 INFO: Processing chiller: CHILLER - WATER COOLED
-INFO: Chiller data loaded from C:\GitHub\ctes_opt\mines_example/district_sim\CP6_chiller00.dat
+INFO: Chiller data loaded from C:\GitHub\ctes_opt\mines_example/district_sim\CP6_chiller0.dat
 WARNING:  The capacity as a function of temperature curve for chiller 'CHILLER - WATER COOLED' does not extend below freezing. The curve will be extrapolated by this script. Users must verify the validity of this assumption.
 WARNING:  The EIR as a function of temperature curve for chiller 'CHILLER - WATER COOLED' does not extend below  freezing. The curve will be extrapolated by this script. Users must verify the validity of this assumption.
 INFO:  Building segmented chiller load reduction curve (Discharge)
 INFO: 
  Processing plant loop: CP7
 INFO: Processing chiller: CHILLER - WATER COOLED
-INFO: Chiller data loaded from C:\GitHub\ctes_opt\mines_example/district_sim\CP7_chiller00.dat
-WARNING:  The capacity as a function of temperature curve for chiller 'CHILLER - WATER COOLED' does not extend below freezing. The curve will be extrapolated by this script. Users must verify the validity of this assumption.
-WARNING:  The EIR as a function of temperature curve for chiller 'CHILLER - WATER COOLED' does not extend below  freezing. The curve will be extrapolated by this script. Users must verify the validity of this assumption.
-INFO:  Building segmented chiller load reduction curve (Discharge)
-INFO: 
- Processing plant loop: Tester
-INFO: Processing chiller: CHILLER - WATER COOLED
-INFO: Chiller data loaded from C:\GitHub\ctes_opt\mines_example/building_sim\Tester_chiller0.dat
+INFO: Chiller data loaded from C:\GitHub\ctes_opt\mines_example/district_sim\CP7_chiller0.dat
 WARNING:  The capacity as a function of temperature curve for chiller 'CHILLER - WATER COOLED' does not extend below freezing. The curve will be extrapolated by this script. Users must verify the validity of this assumption.
 WARNING:  The EIR as a function of temperature curve for chiller 'CHILLER - WATER COOLED' does not extend below  freezing. The curve will be extrapolated by this script. Users must verify the validity of this assumption.
 INFO:  Building segmented chiller load reduction curve (Discharge)
@@ -129,27 +70,18 @@ INFO: {'name': '1190C', 'capacity': 570000, 'model': 'simple', 'melt': 'internal
 INFO:  Processing CTES model performance at plant 'CP7' and chiller 'CHILLER - WATER COOLED'
 INFO:  Selected ice tank: CALMAC 1190C, 162 ton-hours nominal
 INFO: {'name': '1190C', 'capacity': 570000, 'model': 'simple', 'melt': 'internal', 'cost': 22690, 'T_fz': 0}
-INFO:  Processing CTES model performance at plant 'Tester' and chiller 'CHILLER - WATER COOLED'
-INFO:  Selected ice tank: CALMAC 1190C, 162 ton-hours nominal
-INFO: {'name': '1190C', 'capacity': 570000, 'model': 'simple', 'melt': 'internal', 'cost': 22690, 'T_fz': 0}
 INFO: 
  *Creating electricity rate*
 INFO:  Energy charges are time-variant over the year: True
 INFO:  Demand charges are present: True
-INFO:  9 different energy charge values were used
+INFO:  Demand response events are signaled via TOU energy charges
+INFO:  10 different energy charge values were used
 INFO:  12 demand periods were created
 INFO: 
  *Writing parameter files for solver*
 INFO:  Aggregating cooling and electricity values for comminity
 INFO:  Writing time-invariant parameters to 'fixed_params.dat'
-INFO:  Successfully wrote 8760 values to file 'l0.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
-INFO:  Successfully wrote 8760 values to file 'p_tildeN0.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
-INFO:  Successfully wrote 8760 values to file 'q_dotX0.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
-INFO:  Successfully wrote 8760 values to file 'lambdaX0.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
-INFO:  Successfully wrote 8760 values to file 'q_dotIY0.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
-INFO:  Successfully wrote 8760 lists to file 'lambdaY0.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
-INFO:  Successfully wrote 8760 lists to file 'y_bar0.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
-INFO:  Successfully wrote 8760 values to file 'p_tilde.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
+INFO:  Successfully wrote 3 lists to file 'Tsets1.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
 INFO:  Successfully wrote 8760 values to file 'l1.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
 INFO:  Successfully wrote 8760 values to file 'p_tildeN1.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
 INFO:  Successfully wrote 8760 values to file 'q_dotX1.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
@@ -158,6 +90,9 @@ INFO:  Successfully wrote 8760 values to file 'q_dotIY1.dat' in 'C:\GitHub\ctes_
 INFO:  Successfully wrote 8760 lists to file 'lambdaY1.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
 INFO:  Successfully wrote 8760 lists to file 'y_bar1.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
 INFO:  Successfully wrote 8760 values to file 'p_tilde.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
+INFO:  Successfully wrote 8760 values to file 'cost_elec.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
+INFO:  Successfully wrote 12 lists to file 'Tdmd.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
+INFO:  Successfully wrote 3 lists to file 'Tsets2.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
 INFO:  Successfully wrote 8760 values to file 'l2.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
 INFO:  Successfully wrote 8760 values to file 'p_tildeN2.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
 INFO:  Successfully wrote 8760 values to file 'q_dotX2.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
@@ -166,3 +101,7 @@ INFO:  Successfully wrote 8760 values to file 'q_dotIY2.dat' in 'C:\GitHub\ctes_
 INFO:  Successfully wrote 8760 lists to file 'lambdaY2.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
 INFO:  Successfully wrote 8760 lists to file 'y_bar2.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
 INFO:  Successfully wrote 8760 values to file 'p_tilde.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
+INFO:  Successfully wrote 8760 values to file 'cost_elec.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
+INFO:  Successfully wrote 12 lists to file 'Tdmd.dat' in 'C:\GitHub\ctes_opt\mines_example/ampl_files'
+INFO: 
+ *Transfer script found. Executing scp to remote server*

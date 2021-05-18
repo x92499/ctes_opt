@@ -124,37 +124,36 @@ class ExposeChillers < OpenStudio::Measure::ModelMeasure
         EIR as a Function of PLR Limits (x min/ max, output min/max)"]
       end
 
-      # add output variables
-      vars = ["Chiller Electricity Rate",
-              "Chiller Evaporator Cooling Rate",
-              "Chiller Evaporator Inlet Temperature",
-              "Chiller Evaporator Mass Flow Rate",
-              "Chiller Part Load Ratio",
-              "Chiller Nominal Capacity",
-              "Disctrict Cooling Chilled Water Rate",
-              "District Cooling Mass Flow Rate"]
-
-      vars.each do |v|
-        n = OpenStudio::Model::OutputVariable.new(v, model)
-        n.setKeyValue(chiller_names[idx])
-        n.setReportingFrequency("Timestep")
-      end
-
-      # add EMS output dictionary reporting for internal variables
-      n = model.getOutputEnergyManagementSystem
-      n.setActuatorAvailabilityDictionaryReporting("Verbose")
-      n.setInternalVariableAvailabilityDictionaryReporting("Verbose")
-      n.setEMSRuntimeLanguageDebugOutputLevel("None")
-      puts(n)
-
       # add output variable from EMS
-      n = OpenStudio::Model::OutputVariable.new("Chiller#{idx} Nominal Capacity", model)
+      n = OpenStudio::Model::OutputVariable.new("Chiller Nominal Capacity", model)
       n.setName("Chiller#{idx} Nominal Capacity")
       n.setReportingFrequency("Timestep")
 
       idx += 1
 
     end
+
+    # add output variables
+    vars = ["Chiller Electricity Rate",
+            "Chiller Evaporator Cooling Rate",
+            "Chiller Evaporator Inlet Temperature",
+            "Chiller Evaporator Mass Flow Rate",
+            "Chiller Part Load Ratio",
+            "Chiller Nominal Capacity",
+            "District Cooling Chilled Water Rate",
+            "District Cooling Mass Flow Rate"]
+
+    vars.each do |v|
+      n = OpenStudio::Model::OutputVariable.new(v, model)
+      n.setReportingFrequency("Timestep")
+    end
+
+    # add EMS output dictionary reporting for internal variables
+    n = model.getOutputEnergyManagementSystem
+    n.setActuatorAvailabilityDictionaryReporting("Verbose")
+    n.setInternalVariableAvailabilityDictionaryReporting("Verbose")
+    n.setEMSRuntimeLanguageDebugOutputLevel("None")
+    puts(n)
 
     if chiller_names.size > 0
       File.open("chiller_index.dat", "w") do |line|

@@ -12,7 +12,7 @@
 import csv
 import os
 import sys
-
+#-------------------------------------------------------------------------------
 def constants(path, chillers, buildings, erates, segments, ts_opt, log):
     log.info(" Writing time-invariant parameters to 'fixed_params.dat'")
     filepath = os.path.join(path, "fixed_params.dat")
@@ -37,31 +37,27 @@ def constants(path, chillers, buildings, erates, segments, ts_opt, log):
         wtr.writerow([round(chillers[0]["ctes"]["capacity"] / 1000, 2)])
 
     return
-
+#-------------------------------------------------------------------------------
 def multiline(vals, path, filename, log):
     with open(os.path.join(path, filename), "w", newline="") as f:
-        wtr = csv.writer(f, dialect="excel", delimiter=" ")
+        wtr = csv.writer(f, delimiter=" ")
         for i in range(len(vals)):
             wtr.writerow([vals[i]])
 
     log.info(" Successfully wrote {} values to file '{}' in '{}'".format(
         len(vals), filename, path))
     return
-
-
-def multiline_lists(vals, path, filename, integer, log):
+#-------------------------------------------------------------------------------
+def multiline_lists(vals, path, filename, log):
     with open(os.path.join(path, filename), "w", newline="") as f:
-        wtr = csv.writer(f, dialect="excel", delimiter=",")
+        wtr = csv.writer(f, delimiter=",")
         for i in range(len(vals)):
-            if integer:
-                wtr.writerow([int(v) for v in vals[i]])
-            else:
-                wtr.writerow([float(v) for v in vals[i]])
+            wtr.writerow(vals[i])
 
     log.info(" Successfully wrote {} lists to file '{}' in '{}'".format(
         len(vals), filename, path))
     return
-
+#-------------------------------------------------------------------------------
 def run(input_path, community, plant_loops, buildings, erates, segments,
     ts_opt, log):
 
@@ -87,48 +83,51 @@ def run(input_path, community, plant_loops, buildings, erates, segments,
     constants(ampl_path, chillers, buildings, erates, segments, ts_opt, log)
     # Write variables that have single values per timestep:
     for idx in range(len(chillers)):
+        k = idx + 1
         # Sets for partial, full, and charge timesteps
-        with open(os.path.join(ampl_path, "Tsets{}.dat".format(idx)),
-            "w", newline="") as f:
-            wtr = csv.writer(f, dialect="excel")
-            wtr.writerow(chillers[idx]["partial_storage_timesteps"])
-            wtr.writerow(chillers[idx]["full_storage_timesteps"])
-            wtr.writerow(chillers[idx]["charge_timesteps"])
+        Tsets = []
+        Tsets.append(chillers[idx]["partial_storage_timesteps"])
+        Tsets.append(chillers[idx]["full_storage_timesteps"])
+        Tsets.append(chillers[idx]["charge_timesteps"])
+        multiline_lists(Tsets, ampl_path, "Tsets{}.dat".format(k), log)
 
         # Cooling load served by plant at each timestep (Wth -> kWth)
         vals = [round(v / 1000, 2) for v in chillers[idx]["evap_cooling_rate"]]
-        multiline(vals, ampl_path, "l{}.dat".format(idx), log)
+        multiline(vals, ampl_path, "l{}.dat".format(k), log)
         # Chiller electric power at time t (W -> kW)
         vals = [round(v / 1000, 2) for v in chillers[idx]["electricity_rate"]]
-        multiline(vals, ampl_path, "p_tildeN{}.dat".format(idx), log)
+        multiline(vals, ampl_path, "p_tildeN{}.dat".format(k), log)
         # Chiller excess capacity available for ice making at t (Wth -> kWth)
         vals = [round(v / 1000, 2) for v in chillers[idx]["charge_capacity"]]
-        multiline(vals, ampl_path, "q_dotX{}.dat".format(idx), log)
+        multiline(vals, ampl_path, "q_dotX{}.dat".format(k), log)
         # Chiller power increase slope for making ice at t (kWe/kWth)
         vals = [round(v, 3) for v in chillers[idx]["charge_power"]]
-        multiline(vals, ampl_path, "lambdaX{}.dat".format(idx), log)
+        multiline(vals, ampl_path, "lambdaX{}.dat".format(k), log)
         # Maximum rate of ice discharge at time t (kWth)
         vals = [round(v, 3) for v in chillers[idx]["ctes"]["max_discharge"]]
-        multiline(vals, ampl_path, "q_dotIY{}.dat".format(idx), log)
+        multiline(vals, ampl_path, "q_dotIY{}.dat".format(k), log)
 
         # Partial storage power reduction segment slopes (kWe/kWth)
         vals = []
         for s in range(len(chillers[idx]["segment_slopes"])):
             vals.append(
                 [round(i, 5) for i in chillers[idx]["segment_slopes"][s]])
-        multiline_lists(vals, ampl_path, "lambdaY{}.dat".format(idx), False,
-            log)
+        multiline_lists(vals, ampl_path, "lambdaY{}.dat".format(k), log)
         # Partial storage power reduction segment lengths (ranges) (kWe/kWth)
         vals = []
         for s in range(len(chillers[idx]["segment_ranges"])):
             vals.append([round(
                 i / 1000, 2) for i in chillers[idx]["segment_ranges"][s]])
-        multiline_lists(vals, ampl_path, "y_bar{}.dat".format(idx), False,
-            log)
+        multiline_lists(vals, ampl_path, "y_bar{}.dat".format(k), log)
 
         # Total community power usage
         vals = [round(v / 1000, 2) for v in community["electricity_rate"]]
-        multiline(vals, ampl_path, "p_tilde.dat".format(idx), log)
-
+        multiline(vals, ampl_path, "p_tilde.dat".format(k), log)
+        # Electricity cost profile ($/kWh)
+        vals = erates["energy_cost"]
+        multiline(vals, ampl_path, "cost_elec.dat", log)
+        # Demand period timestep sets
+        vals = erates["demand_pd_timesteps"]
+        multiline_lists(vals, ampl_path, "Tdmd.dat", log)
 
     return
