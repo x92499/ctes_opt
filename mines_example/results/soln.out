@@ -1,0 +1,12 @@
+annual_cost = 1573804
+
+Z [*] :=
+1  2
+2  3
+;
+
+sum{n in 1 .. N} Z[n] = 5
+e_bill = 1084935
+d_bill = 476369
+capex = 12500
+

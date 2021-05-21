@@ -11,11 +11,11 @@ model ctes.mod;
 data ctes.dat;
 
 # Begin Run Logging
-option log_file 'ctes.log';
+option log_file 'runlog.out';
 
 # Set Options
 option solver gurobi;
-option gurobi_options 'mipgap=1e-4 logfile=ctes.log';
+option gurobi_options 'mipgap=1e-4 logfile=runlog.out';
 
 option display_round 0;
 

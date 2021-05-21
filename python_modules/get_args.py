@@ -82,12 +82,18 @@ def pre(opts, args, log):
 def post(opts, args, log):
     # Set defaults
     transfer = False
+    save = False
+    show_figs = False
     input_path = os.path.join(os.getcwd())
     # execute program
     for opt, arg in opts:
         if opt in ("-h", "--help"):
             print("Help! Needs to be populated w/useful info")
             sys.exit("See log file")
+        elif opt in ("-f", "--figures"):
+            show_figs = True
+        elif opt in ("-s", "--save"):
+            save = True
         elif opt in ("-x", "--transfer"):
             transfer = True
         elif opt in ("-i", "--input_path"):
@@ -103,10 +109,12 @@ def post(opts, args, log):
         log.info("Program terminated early!")
         sys.exit("See log file.")
 
+    log.info("show_figs = {}".format(show_figs))
+    log.info("save = {}".format(save))
     log.info("transfer = {}".format(transfer))
     log.info("input_path = {}".format(input_path))
 
-    return transfer, input_path
+    return input_path, save, show_figs, transfer
 
 # Simulation Manager arguments
 def sim_mgr(opts, args, log):
