@@ -21,6 +21,7 @@ import getopt
 import logging as log
 import os
 import pickle as pkl
+import shutil
 import sys
 import time
 
@@ -34,6 +35,7 @@ import aggregator
 import process_curves
 import get_ctes
 import create_erate
+import get_base_costs
 import write_files
 import xfer
 import make_plots
@@ -71,7 +73,7 @@ except:
     sys.exit("Error. See log file")
 
 [buildings_processor, curve_processor, erate_processor, plant_loops_processor,
-    reset, transfer, input_path, segments, ts_opt] = list(get_args.run(
+    reset, transfer, input_path, segments, ts_opt] = list(get_args.pre(
         opts, args, log))
 #-------------------------------------------------------------------------------
 ## Execute reset if specified
@@ -80,7 +82,13 @@ if reset:
 
     # delete the workspace folder contents
     for file in os.listdir(os.path.join(input_path, "workspace")):
-        os.remove(os.path.join(input_path, "workspace", file))
+        try:# os.path.isdir(os.path.join(input_path, "workspace", file)):
+            shutil.rmtree(os.path.join(input_path, "workspace", file), True)
+        except:
+            pass
+        else:
+            if not file.endswith(".csv"):
+                os.remove(os.path.join(input_path, "workspace", file))
     # delete the ampl_files folder contents
     for file in os.listdir(os.path.join(input_path, "ampl_files")):
         os.remove(os.path.join(input_path, "ampl_files", file))
@@ -128,10 +136,9 @@ if not curve_processor and not plant_loops_processor and not erate_processor:
         input_path, buildings, plant_loops, ts_opt, log)
 
     # Write dictionaries to file via pickle dump
-    try:
-        os.path.isdir(os.path.join(input_path, "workspace"))
-    except:
+    if not os.path.isdir(os.path.join(input_path, "workspace")):
         os.mkdir(os.path.join(input_path, "workspace"))
+
     pkl.dump(buildings, open(os.path.join(
         input_path, "workspace", "buildings.p"), "wb"))
     pkl.dump(plant_loops, open(os.path.join(
@@ -210,29 +217,51 @@ print(erates["DR_timesteps"])
 #-------------------------------------------------------------------------------
 ## Write parameter files for solver
 log.info("\n *Writing parameter files for solver*")
-community = aggregator.run(buildings, plant_loops, ts_opt, log)
-write_files.run(input_path, community, plant_loops, buildings, erates,
+community = aggregator.run(buildings, plant_loops, input_path, ts_opt, log)
+write_files.ampl(input_path, community, plant_loops, buildings, erates,
     segments, ts_opt, log)
+#-------------------------------------------------------------------------------
+## Get baseline costs before optimization
+log.info("\n *Calculating baseline electricity costs before optimization*")
+erates, community = get_base_costs.run(community, erates, ts_opt, log)
+#-------------------------------------------------------------------------------
+## Write baseline summary files after calculating costs
+log.info("\n *Writing baseline energy/cost summary files*")
+write_files.baseline(community, erates, input_path, ts_opt, log)
+## Do final pickle dump to have access to the dictionaries during post.py
+pkl.dump(buildings, open(os.path.join(
+    input_path, "workspace", "buildings_final.p"), "wb"))
+pkl.dump(plant_loops, open(os.path.join(
+    input_path, "workspace", "plant_loops_final.p"), "wb"))
+pkl.dump(community, open(os.path.join(
+    input_path, "workspace", "community_final.p"), "wb"))
+pkl.dump(erates, open(os.path.join(
+    input_path, "workspace", "erates_final.p"), "wb"))
+log.info("buildings_final.p, plant_loops_final.p, community_final.py " \
+    "and erates_final.p saved to workspace folder")
+#-------------------------------------------------------------------------------
+## Make figures
+log.info("\n *Making baseline figures*")
+make_plots.pre(community, plant_loops, buildings, erates, input_path, log)
+
+# # check buildings
+# print("\n Erates Check")
+# for k, v in erates.items():
+#     for i, j in v.items():
+#         print(k,":", i, len(j))
 
 
-# check buildings
-print("\n Buildings Check")
-for k, v in buildings.items():
-    for i, j in v.items():
-        print(k,":", i, len(j))
-
-
-for p in plant_loops:
-    print("Plant Loop: ", p)
-    print("Keys:", plant_loops[p].keys())
-    for c in plant_loops[p]:
-        try:
-            print("Chiller Keys:", plant_loops[p][c].keys())
-        except:
-            pass
-        if c not in ["district_cooling_load", "district_mass_flow",
-            "total_power"]:
-            print(plant_loops[p][c]["ctes"].keys())
+# for p in plant_loops:
+#     print("Plant Loop: ", p)
+#     print("Keys:", plant_loops[p].keys())
+#     for c in plant_loops[p]:
+#         try:
+#             print("Chiller Keys:", plant_loops[p][c].keys())
+#         except:
+#             pass
+#         if c not in ["district_cooling_load", "district_mass_flow",
+#             "total_power"]:
+#             print(plant_loops[p][c]["ctes"].keys())
 
 # Transfer files to remote server if desired
 if transfer:

@@ -8,8 +8,24 @@
 # electric power required for cooling, and the total cooling rate for the
 # full community scenario
 
-def run(buildings, plant_loops, ts_opt, log):
-    log.info(" Aggregating cooling and electricity values for comminity")
+import datetime
+
+## Populate a datetime array
+def get_dtg(input_path, ts_opt, log):
+    # This method creates datetime group for simulation period
+    ts_min = 60 / ts_opt
+
+    if ts_opt == 1.0:
+        dtg = [datetime.datetime(2006,1,1,0,0,0,0) +
+            t*datetime.timedelta(hours=1) for t in range(8760)]
+    else:
+        dtg = [datetime.datetime(2019,1,1,0,0,0,0) +
+            t*datetime.timedelta(minutes=ts_min) for t in range(8760 * ts_opt)]
+
+    return dtg
+
+def run(buildings, plant_loops, input_path, ts_opt, log):
+    log.info(" Aggregating cooling and electricity values for community")
     # build dictionary
     community = {}
     # create empty lists
@@ -39,5 +55,6 @@ def run(buildings, plant_loops, ts_opt, log):
     community["non_cooling_electricity_rate"] = pwr_non_cool
     community["cooling_electricity_rate"] = pwr_cool
     community["cooling_thermal_rate"] = cooling
+    community["dtg"] = get_dtg(input_path, ts_opt, log)
 
     return community

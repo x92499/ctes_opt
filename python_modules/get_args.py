@@ -10,7 +10,8 @@
 import os
 import sys
 
-def run(opts, args, log):
+# Preprocessor arguments
+def pre(opts, args, log):
     # set defaults
     buildings_processor = False
     curve_processor = False
@@ -76,3 +77,59 @@ def run(opts, args, log):
 
     return [buildings_processor, curve_processor, erate_processor,
         plant_loops_processor, reset, transfer, input_path, segments, ts_opt]
+
+# Post processor arguments
+def post(opts, args, log):
+    # Set defaults
+    transfer = False
+    input_path = os.path.join(os.getcwd())
+    # execute program
+    for opt, arg in opts:
+        if opt in ("-h", "--help"):
+            print("Help! Needs to be populated w/useful info")
+            sys.exit("See log file")
+        elif opt in ("-x", "--transfer"):
+            transfer = True
+        elif opt in ("-i", "--input_path"):
+            if arg[1] == ":":
+                input_path = arg
+            else:
+                input_path = os.path.join(os.getcwd(), arg)
+
+    # Validate the specified input directory
+    if not os.path.isdir(input_path):
+        log.error("Specified input directory '{}' does not exist".format(
+            input_path))
+        log.info("Program terminated early!")
+        sys.exit("See log file.")
+
+    log.info("transfer = {}".format(transfer))
+    log.info("input_path = {}".format(input_path))
+
+    return transfer, input_path
+
+# Simulation Manager arguments
+def sim_mgr(opts, args, log):
+    # Set defaults
+    input_path = os.path.join(os.getcwd())
+    # execute program
+    for opt, arg in opts:
+        if opt in ("-h", "--help"):
+            print("Help! Needs to be populated w/useful info")
+            sys.exit("See log file")
+        elif opt in ("-i", "--input_path"):
+            if arg[1] == ":":
+                input_path = arg
+            else:
+                input_path =os.path.join(os.getcwd(), arg)
+
+    # Validate the specified input directory
+    if not os.path.isdir(input_path):
+        log.error("Specified input directory '{}' does not exist".format(
+            input_path))
+        log.info("Program terminated early!")
+        sys.exit("See log file.")
+
+    log.info("input_path = {}".format(input_path))
+
+    return input_path

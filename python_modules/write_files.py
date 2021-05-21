@@ -58,14 +58,11 @@ def multiline_lists(vals, path, filename, log):
         len(vals), filename, path))
     return
 #-------------------------------------------------------------------------------
-def run(input_path, community, plant_loops, buildings, erates, segments,
+def ampl(input_path, community, plant_loops, buildings, erates, segments,
     ts_opt, log):
-
+    # Writes all the files for use by AMPL
     # Create AMPL files folder if needed:
-    try:
-        os.path.isdir(os.path.join(input_path, "ampl_files"))
-    except:
-        print(False)
+    if not os.path.isdir(os.path.join(input_path, "ampl_files")):
         os.mkdir(os.path.join(input_path, "ampl_files"))
     ampl_path = os.path.join(input_path, "ampl_files")
 
@@ -129,5 +126,37 @@ def run(input_path, community, plant_loops, buildings, erates, segments,
         # Demand period timestep sets
         vals = erates["demand_pd_timesteps"]
         multiline_lists(vals, ampl_path, "Tdmd.dat", log)
+
+    return
+
+def baseline(community, erates, input_path, ts_opt, log):
+    # This module write baseline data summary files
+
+    # Create results folder if needed:
+    if not os.path.isdir(os.path.join(input_path, "results")):
+        os.mkdir(os.path.join(input_path, "results"))
+    results_path = os.path.join(input_path, "results")
+
+    # Write baseline summary file
+    # Energy Totals
+    lines =[["Total Electricity [MWh]",
+        "Total Cooling Electricity [MWh]",
+        "Total Non-Cooling Electricity [MWh]",
+        "Total Cooling Thermal Energy [MWh_th]"]]
+    lines.append([round(sum(community["electricity_rate"]) / ts_opt / 1e6, 3),
+        round(sum(community["cooling_electricity_rate"]) / ts_opt / 1e6, 3),
+        round(sum(community["non_cooling_electricity_rate"]) / ts_opt / 1e6, 3),
+        round(sum(community["cooling_thermal_rate"]) / ts_opt / 1e6, 3)])
+    lines.append(["Total Electricity bill [$]",
+        "Total Demand Charges [$]",
+        "Total Energy Charges [$]"])
+    lines.append([round(erates["baseline_total"], 2),
+        round(sum(erates["baseline_demand"]), 2),
+        round(erates["baseline_energy"], 2)])
+    lines.append(["Peak Demand by Period [kW]"])
+    lines.append([round(v, 2) for v in community["peak_demand"]])
+    lines.append(["Demand charge by period"])
+    lines.append([round(v, 2) for v in erates["baseline_demand"]])
+    multiline_lists(lines, results_path, "baseline.csv", log)
 
     return
