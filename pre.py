@@ -213,7 +213,6 @@ plant_loops = get_ctes.run(plant_loops, ts_opt, type, log)
 ## Generate energy cost profile including Demand Response events
 log.info("\n *Creating electricity rate*")
 erates = create_erate.run(ts_opt, log)
-print(erates["DR_timesteps"])
 #-------------------------------------------------------------------------------
 ## Write parameter files for solver
 log.info("\n *Writing parameter files for solver*")
