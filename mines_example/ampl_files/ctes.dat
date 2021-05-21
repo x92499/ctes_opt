@@ -1,0 +1,62 @@
+# CTES Optimization Formulation Data Read-in
+# Karl Heine, Colorado School of Mines, kheine@mines.edu
+# March 16, 2021
+
+#--------------------------------
+# Data File
+#--------------------------------
+# ctes.dat
+
+# Read Fixed Parameter Data
+read delta, B, D, I, N, S, T, Tdr_ct, {d in 1..D} Tp_ct[d], {d in 1..D} c_p[d], {n in 1..N} TYpart_ct[n], {n in 1..N} TY_ct[n], {n in 1..N} TX_ct[n], qIX, q < fixed_params.dat;
+
+# Override the qIX limit
+# let qIX:= 71;	# This is ~20 tons per tank charging rate (CALMAC data point)
+
+param filename symbolic;
+## Read parameter sets for each chiller:
+for {n in 1..N} {
+	# read baseline chiller electric demand profiles
+	let filename:="p_tildeN" & n & ".dat";
+	read {t in 1..T} pN[n,t] < (filename);
+	# read baseline cooling load profiles for each chiller
+	let filename:="l" & n & ".dat";
+	read {t in 1..T} l[n,t] < (filename);
+	# read max rate of chiller charging
+	let filename:="q_dotX" & n & ".dat";
+	read {t in 1..T} qNX[n,t] < (filename);
+	# read slopes for partial storage chiller discharge curves
+	let filename:="lambdaY" & n & ".dat";
+	read {t in 1..T, s in 1..S} lambdaY[n,s,t] < (filename);
+	# read limits for partial storage discharge curve segments
+	let filename:="y_bar" & n & ".dat";
+	read {t in 1..T, s in 1..S} y_bar[n,s,t] < (filename);
+	# read slopes for charging
+	let filename:="lambdaX" & n & ".dat";
+	read {t in 1..T} lambdaX[n,t] < (filename);
+	# read max discharging rates for each CTES
+	let filename:="q_dotIY" & n & ".dat";
+	read {t in 1..T} qIY[n,t] < (filename);
+
+	# read indexed set values
+	let filename:="Tsets" & n & ".dat";
+	read {t in 1..TYpart_ct[n]} TYpart_v[n,t], {t in 1..TY_ct[n]} TY_v[n,t], {t in 1..TX_ct[n]} TX_v[n,t] < (filename);
+}
+
+# Read Electricity Rate Data
+read {d in 1..D, t in 1..Tp_ct[d]} Tp_v[d,t] < Tdmd.dat;
+read {t in 1..T} c_e[t] < cost_elec.dat;
+
+# Read Baseline Power Profile
+read {t in 1..T} p[t] < p_tilde.dat;
+
+# Populate Sets
+let Tdr:= setof {t in 1..Tdr_ct} Tdr_v[t];
+for {n in 1..N} {
+	let TY[n]:= setof {t in 1..TY_ct[n]} TY_v[n,t];
+	let TYpart[n]:= setof {t in 1..TYpart_ct[n]} TYpart_v[n,t];
+	let TX[n]:= setof {t in 1..TX_ct[n]} TX_v[n,t];
+}
+for {d in 1..D} {
+	let Tp[d]:= setof {t in 1..Tp_ct[d]} Tp_v[d,t];
+}

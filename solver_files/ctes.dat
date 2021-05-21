@@ -8,7 +8,7 @@
 # ctes.dat
 
 # Read Fixed Parameter Data
-read delta, B, D, I, N, S, T, {d in 1..D} Tp_ct[d], {d in 1..D} c_p[d], {n in 1..N} TYpart_ct[n], {n in 1..N} TY_ct[n], {n in 1..N} TX_ct[n], qIX, q < fixed_params.dat;
+read delta, B, D, I, N, S, T, {d in 1..D} Tp_ct[d], {d in 1..D} c_p[d], Tdr_ct, {n in 1..N} TYpart_ct[n], {n in 1..N} TY_ct[n], {n in 1..N} TX_ct[n], qIX, q < fixed_params.dat;
 
 # Override the qIX limit
 # let qIX:= 71;	# This is ~20 tons per tank charging rate (CALMAC data point)
@@ -50,7 +50,11 @@ read {t in 1..T} c_e[t] < cost_elec.dat;
 # Read Baseline Power Profile
 read {t in 1..T} p[t] < p_tilde.dat;
 
+# Read Demand Response Timesteps Data
+read {t in 1..Tdr_ct} Tdr_v[t] < Tdr.dat;
+
 # Populate Sets
+let Tdr:= setof {t in 1..Tdr_ct} Tdr_v[t];
 for {n in 1..N} {
 	let TY[n]:= setof {t in 1..TY_ct[n]} TY_v[n,t];
 	let TYpart[n]:= setof {t in 1..TYpart_ct[n]} TYpart_v[n,t];

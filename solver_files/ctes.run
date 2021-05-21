@@ -10,21 +10,12 @@
 model ctes.mod;
 data ctes.dat;
 
-# Define Bender's decomp strategy
-#suffix benders IN, integer, >= 0;
-#for {n in 1..N} {
-#  let Z[n].benders:= 0;
-#}
-
 # Begin Run Logging
 option log_file 'ctes.log';
 
 # Set Options
 option solver gurobi;
-option gurobi_options 'mipgap=1e-5 logfile=ctes.log';
-
-#option solver cplex;
-#option cplex_options 'absmipgap=3499 mipdisplay=2 mipinterval=200 bendersopt ordertype=1 heurfreq=1000';
+option gurobi_options 'mipgap=1e-4 logfile=ctes.log';
 
 option display_round 0;
 

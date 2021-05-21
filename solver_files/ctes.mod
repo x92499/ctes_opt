@@ -16,16 +16,19 @@ param I >= 1;  # number of CTES types
 param N >= 1;  # number of plant loops
 param S >= 1;  # number of segments in chiller curve linearization
 param T >= 1;  # number of timesteps
+param Tdr_ct >= 0;  # number of ts when DR events are occuring
 param TY_ct{1..N} >= 0;  # number of ts when cooling load exists
 param TYpart_ct{1..N} >= 0;  # number of ts when partial-storage possible
 param TX_ct{1..N} >= 0;  # number of ts when charging possible
 param Tp_ct{1..D} >= 0;  # number of ts in each demand period
+param Tdr_v{1..Tdr_ct} >= 0;  # values which populate indexed set Tdr
 param TY_v{n in 1..N, 1..TY_ct[n]} >= 0;  # values which populate indexed set TY
 param TYpart_v{n in 1..N, 1..TYpart_ct[n]} >= 0;  # values which populate indexed set TYpart_v
 param TX_v{n in 1..N, 1..TX_ct[n]} >= 0;  # values which populate indexed set TX
 param Tp_v{d in 1..D, 1..Tp_ct[d]} >= 0;  # values which populate indexed set Tp
 
 # Sets (indexed)
+set Tdr default {};  # set for demand response timesteps
 set TY{1..N} default {};  # set for discharge possible ts
 set TYpart{1..N} default {};  # set for partial storage possible ts
 set TX{1..N} default {};  # set for charging possible ts
@@ -111,5 +114,5 @@ s.t. profile_charge {n in 1..N, t in 1..T}: PX[n,t] >= lambdaX[n,t] * X[n,t];
 s.t. profile {t in 1..T}: P[t] >= p[t] + sum{n in 1..N} (PX[n,t] - PYpart[n,t] - PYfull[n,t]);
 s.t. peak_demand {d in 1..D, t in Tp[d]}: P_hat[d] >= P[t];
 
-# prevent full storage operation
-s.t. no_full {n in 1..N, t in 1..T}: alpha[n,t] <= 0;
+# prevent full storage operation except during DR events
+s.t. no_full {n in 1..N, t in 1..T: t not in Tdr}: alpha[n,t] <= 0;

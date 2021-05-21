@@ -228,6 +228,11 @@ erates, community = get_base_costs.run(community, erates, ts_opt, log)
 ## Write baseline summary files after calculating costs
 log.info("\n *Writing baseline energy/cost summary files*")
 write_files.baseline(community, erates, input_path, ts_opt, log)
+## Expose data structure by writing dictionary keys to file:
+dictionaries = [community, plant_loops, buildings, erates]
+dict_names = ["community", "plant_loops", "buildings", "erates"]
+for d in range(len(dictionaries)):
+    write_files.data_structure(dictionaries[d], dict_names[d], input_path, log)
 ## Do final pickle dump to have access to the dictionaries during post.py
 pkl.dump(buildings, open(os.path.join(
     input_path, "workspace", "buildings_final.p"), "wb"))

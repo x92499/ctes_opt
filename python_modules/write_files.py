@@ -25,8 +25,9 @@ def constants(path, chillers, buildings, erates, segments, ts_opt, log):
         wtr.writerow([len(chillers)])    # N, # chillers
         wtr.writerow([segments])    # S, # segments for linearization
         wtr.writerow([int(8760 * ts_opt)])  # T, # timesteps
-        wtr.writerow(erates["demand_pd_ts_ct"])    # TP_d, # ts in ea dmd pd
+        wtr.writerow(erates["demand_pd_ts_ct"])    # Tp_d, # ts in ea dmd pd
         wtr.writerow(erates["demand_cost"])  # c_d, demand charge per pd
+        wtr.writerow([len(erates["DR_timesteps"])])   # Tdr, # ts in DR periods
         wtr.writerow([len(
             chillers[c]["partial_storage_timesteps"]) for c in chillers])
         wtr.writerow([len(
@@ -126,6 +127,9 @@ def ampl(input_path, community, plant_loops, buildings, erates, segments,
         # Demand period timestep sets
         vals = erates["demand_pd_timesteps"]
         multiline_lists(vals, ampl_path, "Tdmd.dat", log)
+        # Demand Response timestep set
+        vals = erates["DR_timesteps"]
+        multiline(vals, ampl_path, "Tdr.dat", log)
 
     return
 
@@ -155,8 +159,76 @@ def baseline(community, erates, input_path, ts_opt, log):
         round(erates["baseline_energy"], 2)])
     lines.append(["Peak Demand by Period [kW]"])
     lines.append([round(v, 2) for v in community["peak_demand"]])
-    lines.append(["Demand charge by period"])
+    lines.append(["Demand Charge by Period"])
     lines.append([round(v, 2) for v in erates["baseline_demand"]])
     multiline_lists(lines, results_path, "baseline.csv", log)
+
+    return
+
+def data_structure(dictionary, name, input_path, log):
+    log.info("Writing keys for dictionary '{}' in workspace folder".format(
+        name))
+    path = os.path.join(input_path, "workspace", "{}_keys.dat".format(name))
+
+    # iterate through dictionary levels:
+    with open(path, "w") as f:
+        f.write("{}:".format(name))
+        for l1, v1 in dictionary.items():
+            f.write("\n  {}: ".format(l1))
+            if isinstance(v1, list):
+                f.write("{} items".format(len(v1)))
+            elif isinstance(v1, float):
+                f.write("float")
+            elif isinstance(v1, int):
+                f.write("integer")
+            elif isinstance(v1, str):
+                f.write("string")
+            elif isinstance(v1, dict):
+                for l2, v2 in v1.items():
+                    f.write("\n    {}: ".format(l2))
+                    if isinstance(v2, list):
+                        f.write("{} items".format(len(v2)))
+                    elif isinstance(v2, float):
+                        f.write("float")
+                    elif isinstance(v2, int):
+                        f.write("integer")
+                    elif isinstance(v2, str):
+                        f.write("string")
+                    elif isinstance(v2, dict):
+                        for l3, v3 in v2.items():
+                            f.write("\n      {}: ".format(l3))
+                            if isinstance(v3, list):
+                                f.write("{} items".format(len(v3)))
+                            elif isinstance(v3, float):
+                                f.write("float")
+                            elif isinstance(v3, int):
+                                f.write("integer")
+                            elif isinstance(v2, str):
+                                f.write("string")
+                            elif isinstance(v3, dict):
+                                for l4, v4 in v3.items():
+                                    f.write("\n        {}: ".format(l4))
+                                    if isinstance(v4, list):
+                                        f.write("{} items".format(len(v4)))
+                                    elif isinstance(v4, float):
+                                        f.write("float")
+                                    elif isinstance(v4, int):
+                                        f.write("integer")
+                                    elif isinstance(v4, str):
+                                        f.write("string")
+                                    elif isinstance(v3, dict):
+                                        f.write("dict")
+            # try:
+            #     for l2 in dictionary[l1].keys():
+            #         f.write("\n    {}:".format(l2))
+            #         f.write(" {} elements".format(len(dictionary[l2])))
+            #         try:
+            #             for l3 in dictionary[l1][l2].keys():
+            #                 f.write("\n      {}:".format(l3))
+            #                 f.write(" {} elements".format(len(dictionary[l3])))
+            #         except:
+            #             pass
+            # except:
+            #     pass
 
     return

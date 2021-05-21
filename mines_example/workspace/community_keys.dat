@@ -1,0 +1,7 @@
+community:
+  electricity_rate: 8760 items
+  non_cooling_electricity_rate: 8760 items
+  cooling_electricity_rate: 8760 items
+  cooling_thermal_rate: 8760 items
+  dtg: 8760 items
+  peak_demand: 12 items
