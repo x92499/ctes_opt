@@ -71,7 +71,7 @@ except:
     log.info("Program terminated early!")
     sys.exit("See log file.")
 #-------------------------------------------------------------------------------
-## Load results data in the .out files into a data dictionary\
+## Load results data in the .out files into a data dictionary
 log.info("Populating the 'optimized' dictionary")
 results_path = os.path.join(input_path, "results")
 file_path = os.path.join(results_path, "figures")
@@ -86,15 +86,11 @@ with open(os.path.join(results_path, "P.out"), "r") as f:
 with open(os.path.join(results_path, "P_hat.out"), "r") as f:
     for line in f:
         optimized["peak_demand"].append(float(line))
-# Plant loop data
-PX = []
-# Electricity used for charging
-with open(os.path.join(results_path, "PX.out"), "r") as f:
-    rdr = csv.reader(f, delimiter=" ")
-    for row in rdr:
-        vals.append([float(i) for i in row])
-idx = 0
-for p in plant_loops:
-    optimized[p] = {}
-    optimized[p]["charging_electricity_rate"] = [v[idx] for v in vals]
-    idx += 1
+# Plant loop timeseries data
+keys = ["alpha", "PX", "PYfull", "PYpart", "Q", "X", "Yfull", "Ypart"]
+for k in keys:
+    optimized[k] = []
+    with open(os.path.join(results_path, "{}.out".format(k)), "r") as f:
+        rdr = csv.reader(f, delimiter=" ")
+        for row in rdr:
+            optimized[k].append([float(i) for i in row])
