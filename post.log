@@ -1,10 +1,11 @@
 INFO: Logging initialized
-INFO: File: 'post.py'. Start time: Sat May 22 10:20:19 2021
+INFO: File: 'post.py'. Start time: Mon May 31 16:00:06 2021
 INFO: 
  **Getting user arguments from the command line**
-INFO: show_figs = False
+INFO: show_figs = True
 INFO: save = False
 INFO: transfer = False
 INFO: input_path = C:\GitHub\ctes_opt\mines_example/
 INFO: Loaded data from community_final.p, plant_loops_final.p, buildings_final.p, and erates_final.p written by pre.py
+INFO: The detected optimization timestep is: 1
 INFO: Populating the 'optimized' dictionary

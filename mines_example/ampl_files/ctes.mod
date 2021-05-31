@@ -16,7 +16,7 @@ param I >= 1;  # number of CTES types
 param N >= 1;  # number of plant loops
 param S >= 1;  # number of segments in chiller curve linearization
 param T >= 1;  # number of timesteps
-param Tdr_ct >= 0:  # number of ts when DR events are occuring
+param Tdr_ct >= 0;  # number of ts when DR events are occuring
 param TY_ct{1..N} >= 0;  # number of ts when cooling load exists
 param TYpart_ct{1..N} >= 0;  # number of ts when partial-storage possible
 param TX_ct{1..N} >= 0;  # number of ts when charging possible
@@ -114,5 +114,5 @@ s.t. profile_charge {n in 1..N, t in 1..T}: PX[n,t] >= lambdaX[n,t] * X[n,t];
 s.t. profile {t in 1..T}: P[t] >= p[t] + sum{n in 1..N} (PX[n,t] - PYpart[n,t] - PYfull[n,t]);
 s.t. peak_demand {d in 1..D, t in Tp[d]}: P_hat[d] >= P[t];
 
-# prevent full storage operation
-s.t. no_full {n in 1..N, t in 1..T}: alpha[n,t] <= 0;
+# prevent full storage operation except during DR events
+s.t. no_full {n in 1..N, t in 1..T: t not in Tdr}: alpha[n,t] <= 0;

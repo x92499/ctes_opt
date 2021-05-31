@@ -15,7 +15,7 @@ option log_file 'runlog.out';
 
 # Set Options
 option solver gurobi;
-option gurobi_options 'mipgap=1e-4 logfile=runlog.out';
+option gurobi_options 'mipgapabs=1100 logfile=runlog.out';
 
 option display_round 0;
 
@@ -24,7 +24,7 @@ param d_bill >= 0;
 param capex >= 0;
 
 # Override k value
-let k:= 1500;
+let k:= 1135;
 
 # Solve
 solve;

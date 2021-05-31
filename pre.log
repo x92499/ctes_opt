@@ -1,14 +1,13 @@
 INFO: Logging initialized
-INFO: File: 'pre.py'. Start time: Fri May 21 11:11:03 2021
+INFO: File: 'pre.py'. Start time: Mon May 31 14:23:37 2021
 INFO: 
  **Getting user arguments from the command line**
-INFO: Performing district plant loops pre-processing step
 INFO: buildings_processor = False
 INFO: curve_processor = False
 INFO: erate_processor = False
-INFO: plant_loops_processor = True
+INFO: plant_loops_processor = False
 INFO: reset = False
-INFO: transfer = False
+INFO: transfer = True
 INFO: input_path = C:\GitHub\ctes_opt\mines_example/
 INFO: segments = 3
 INFO: ts_opt = 1
@@ -23,6 +22,99 @@ INFO: The following data was extracted from the weather file:
 INFO:  * 8760 wetbulb temperatures
 INFO:  * 8760 drybulb temperatures
 INFO: Weather file: C:\GitHub\ctes_opt\mines_example/building_sim\2019 NREL Wx.epw
+INFO: 
+ **Performing the building file pre-processor**
+INFO: 
+ Loading Berthoud...
+INFO: ...completed
+INFO:  Building simulation data is of greater precision than the optimization timestep; data will be aggregated and averaged
+INFO:  Detected simulation timestep: 12 per hour
+INFO:  Peak Electric Demand [kW]: 196.95
+INFO:  Total Electric Energy [MWh]: 844.53
+INFO:  Peak Cooling Thermal Load [kWt]: 361.37
+INFO:  Total Cooling Thermal Energy [MWht]: 518.86
+INFO:  Maximum district cooling mass flow rate [kg/s]: 20.08
+INFO: 
+ Loading Brown...
+INFO: ...completed
+INFO:  Building simulation data is of greater precision than the optimization timestep; data will be aggregated and averaged
+INFO:  Detected simulation timestep: 12 per hour
+INFO:  Peak Electric Demand [kW]: 432.78
+INFO:  Total Electric Energy [MWh]: 2037.24
+INFO:  Peak Cooling Thermal Load [kWt]: 987.92
+INFO:  Total Cooling Thermal Energy [MWht]: 1364.23
+INFO:  Maximum district cooling mass flow rate [kg/s]: 40.51
+INFO: 
+ Loading Coolbaugh...
+INFO: ...completed
+INFO:  Building simulation data is of greater precision than the optimization timestep; data will be aggregated and averaged
+INFO:  Detected simulation timestep: 12 per hour
+INFO:  Peak Electric Demand [kW]: 485.47
+INFO:  Total Electric Energy [MWh]: 2053.09
+INFO:  Peak Cooling Thermal Load [kWt]: 951.06
+INFO:  Total Cooling Thermal Energy [MWht]: 955.06
+INFO:  Maximum district cooling mass flow rate [kg/s]: 35.8
+INFO: 
+ Loading CoorsTek...
+INFO: ...completed
+INFO:  Building simulation data is of greater precision than the optimization timestep; data will be aggregated and averaged
+INFO:  Detected simulation timestep: 12 per hour
+INFO:  Peak Electric Demand [kW]: 285.84
+INFO:  Total Electric Energy [MWh]: 1675.37
+INFO:  Peak Cooling Thermal Load [kWt]: 637.15
+INFO:  Total Cooling Thermal Energy [MWht]: 2473.73
+INFO:  Maximum district cooling mass flow rate [kg/s]: 69.39
+INFO: 
+ Loading Elm...
+INFO: ...completed
+INFO:  Building simulation data is of greater precision than the optimization timestep; data will be aggregated and averaged
+INFO:  Detected simulation timestep: 12 per hour
+INFO:  Peak Electric Demand [kW]: 383.53
+INFO:  Total Electric Energy [MWh]: 1630.31
+INFO:  Peak Cooling Thermal Load [kWt]: 702.77
+INFO:  Total Cooling Thermal Energy [MWht]: 863.65
+INFO:  Maximum district cooling mass flow rate [kg/s]: 41.32
+INFO: 
+ Loading Hill...
+INFO: ...completed
+INFO:  Building simulation data is of greater precision than the optimization timestep; data will be aggregated and averaged
+INFO:  Detected simulation timestep: 12 per hour
+INFO:  Peak Electric Demand [kW]: 534.82
+INFO:  Total Electric Energy [MWh]: 3053.98
+INFO:  Peak Cooling Thermal Load [kWt]: 814.75
+INFO:  Total Cooling Thermal Energy [MWht]: 2166.82
+INFO:  Maximum district cooling mass flow rate [kg/s]: 20.5
+INFO: 
+ Loading Maple...
+INFO: ...completed
+INFO:  Building simulation data is of greater precision than the optimization timestep; data will be aggregated and averaged
+INFO:  Detected simulation timestep: 12 per hour
+INFO:  Peak Electric Demand [kW]: 143.14
+INFO:  Total Electric Energy [MWh]: 549.89
+INFO:  Peak Cooling Thermal Load [kWt]: 253.23
+INFO:  Total Cooling Thermal Energy [MWht]: 279.77
+INFO:  Maximum district cooling mass flow rate [kg/s]: 19.63
+INFO: 
+ Loading Starzer...
+INFO: ...completed
+INFO:  Building simulation data is of greater precision than the optimization timestep; data will be aggregated and averaged
+INFO:  Detected simulation timestep: 12 per hour
+INFO:  Peak Electric Demand [kW]: 79.38
+INFO:  Total Electric Energy [MWh]: 351.32
+INFO:  Peak Cooling Thermal Load [kWt]: 163.19
+INFO:  Total Cooling Thermal Energy [MWht]: 161.01
+INFO:  Maximum district cooling mass flow rate [kg/s]: 27.01
+INFO: 
+ Loading Weaver...
+INFO: ...completed
+INFO:  Building simulation data is of greater precision than the optimization timestep; data will be aggregated and averaged
+INFO:  Detected simulation timestep: 12 per hour
+INFO:  Peak Electric Demand [kW]: 149.35
+INFO:  Total Electric Energy [MWh]: 528.39
+INFO:  Peak Cooling Thermal Load [kWt]: 216.16
+INFO:  Total Cooling Thermal Energy [MWht]: 203.81
+INFO:  Maximum district cooling mass flow rate [kg/s]: 8.24
+INFO: buildings.p and plant_loops.p saved to workspace folder
 INFO: 
  **Performing the plant loop pre-processor**
 INFO: 
@@ -117,3 +209,5 @@ INFO: Writing keys for dictionary 'erates' in workspace folder
 INFO: buildings_final.p, plant_loops_final.p, community_final.py and erates_final.p saved to workspace folder
 INFO: 
  *Making baseline figures*
+INFO: 
+ *Transfer script found. Executing scp to remote server*
