@@ -46,6 +46,7 @@ print{t in 1..T}: {n in 1..N} Q[n,t] > Q.out;
 print{t in 1..T}: {n in 1..N} X[n,t] > X.out;
 print{t in 1..T}: {n in 1..N} Yfull[n,t] > Yfull.out;
 print{t in 1..T}: {n in 1..N} sum{s in 1..S} Ypart[n,s,t] > Ypart.out;
+print{t in 1..T}: {n in 1..N} l[n,t] + X[n,t] - Yfull[n,t] - sum{s in 1..S} Ypart[n,s,t] > load.out;
 
 option print_round 0;
 display annual_cost, Z;

@@ -1,17 +1,17 @@
-Gurobi 9.0.0: mipgap=1e-4
+Gurobi 9.0.0: mipgapabs=1100
 logfile=runlog.out
 Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
 Optimize a model with 114293 rows, 97090 columns and 344572 nonzeros
-Model fingerprint: 0x8ffa18e3
+Model fingerprint: 0x7268f634
 Variable types: 96944 continuous, 146 integer (144 binary)
 Coefficient statistics:
   Matrix range     [6e-02, 2e+05]
-  Objective range  [4e-02, 2e+03]
+  Objective range  [4e-02, 1e+03]
   Bounds range     [1e+00, 2e+03]
   RHS range        [1e+00, 3e+03]
 Found heuristic solution: objective 1577154.3932
 Presolve removed 42009 rows and 40062 columns
-Presolve time: 2.96s
+Presolve time: 2.97s
 Presolved: 72284 rows, 57028 columns, 270003 nonzeros
 Variable types: 56882 continuous, 146 integer (144 binary)
 
@@ -22,88 +22,50 @@ Showing first log only...
 Root simplex log...
 
 Iteration    Objective       Primal Inf.    Dual Inf.      Time
-    8503    1.5771541e+06   0.000000e+00   4.078029e+03      5s
+    8763    1.5771504e+06   0.000000e+00   2.783139e+04      5s
 Concurrent spin time: 0.00s
 
 Solved with dual simplex
 
-Root relaxation: objective 1.567245e+06, 8364 iterations, 3.65 seconds
+Root relaxation: objective 1.564099e+06, 8272 iterations, 5.14 seconds
 
     Nodes    |    Current Node    |     Objective Bounds      |     Work
  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
 
-     0     0 1567245.34    0   97 1577154.39 1567245.34  0.63%     -    8s
-H    0     0                    1570118.1350 1567245.34  0.18%     -   10s
-     0     0 1567310.26    0  103 1570118.14 1567310.26  0.18%     -   16s
-H    0     0                    1567773.8058 1567310.26  0.03%     -   17s
-     0     0 1567313.01    0  105 1567773.81 1567313.01  0.03%     -   18s
-     0     0 1567318.52    0  105 1567773.81 1567318.52  0.03%     -   18s
-     0     0 1567347.39    0  106 1567773.81 1567347.39  0.03%     -   21s
-H    0     0                    1567772.3507 1567347.39  0.03%     -   25s
-     0     0 1567365.44    0  107 1567772.35 1567365.44  0.03%     -   25s
-     0     0 1567365.44    0  106 1567772.35 1567365.44  0.03%     -   26s
-     0     0 1567378.50    0  109 1567772.35 1567378.50  0.03%     -   29s
-     0     0 1567439.23    0  113 1567772.35 1567439.23  0.02%     -   31s
-     0     0 1567439.23    0  111 1567772.35 1567439.23  0.02%     -   31s
-     0     0 1567439.23    0  111 1567772.35 1567439.23  0.02%     -   32s
-     0     0 1567450.33    0  112 1567772.35 1567450.33  0.02%     -   35s
-     0     0 1567502.17    0  111 1567772.35 1567502.17  0.02%     -   37s
-     0     0 1567502.17    0  111 1567772.35 1567502.17  0.02%     -   37s
-     0     0 1567521.45    0  112 1567772.35 1567521.45  0.02%     -   40s
-     0     0 1567521.45    0  112 1567772.35 1567521.45  0.02%     -   40s
-H    0     0                    1567740.8588 1567521.45  0.01%     -   42s
-     0     0 1567523.24    0  112 1567740.86 1567523.24  0.01%     -   43s
-     0     0 1567523.24    0  112 1567740.86 1567523.24  0.01%     -   43s
-H    0     0                    1567731.9807 1567523.24  0.01%     -   45s
-     0     0 1567534.04    0  112 1567731.98 1567534.04  0.01%     -   46s
-     0     0 1567534.04    0  102 1567731.98 1567534.04  0.01%     -   55s
-     0     0 1567534.04    0  101 1567731.98 1567534.04  0.01%     -   56s
-     0     0 1567534.04    0  100 1567731.98 1567534.04  0.01%     -   57s
-     0     0 1567534.04    0  100 1567731.98 1567534.04  0.01%     -   58s
-     0     2 1567534.04    0  100 1567731.98 1567534.04  0.01%     -   65s
-    39     8 1567597.45   17   47 1567731.98 1567534.04  0.01%  57.6   70s
-   213   184 1567626.07   29   35 1567731.98 1567534.04  0.01%  19.0   75s
-   408   339 1567684.36   47    7 1567731.98 1567534.04  0.01%  16.5   80s
-*  496   465              62    1567690.1682 1567534.04  0.01%  15.7   83s
+     0     0 1564098.94    0   96 1577154.39 1564098.94  0.83%     -   10s
+H    0     0                    1565179.8032 1564098.94  0.07%     -   10s
 
-Cutting planes:
-  Gomory: 32
-  Implied bound: 3
-  MIR: 79
-  Relax-and-lift: 98
-
-Explored 659 nodes (18796 simplex iterations) in 83.12 seconds
+Explored 1 nodes (8272 simplex iterations) in 10.87 seconds
 Thread count was 8 (of 8 available processors)
 
-Solution count 7: 1.56769e+06 1.56773e+06 1.56774e+06 ... 1.57715e+06
+Solution count 2: 1.56518e+06 1.57715e+06 
 
 Optimal solution found (tolerance 1.00e-04)
-Warning: max constraint violation (3.5555e-06) exceeds tolerance
-Best objective 1.567690168173e+06, best bound 1.567534040834e+06, gap 0.0100%
+Best objective 1.565179803234e+06, best bound 1.564098941118e+06, gap 0.0691%
 Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
 Optimize a model with 114293 rows, 97090 columns and 344572 nonzeros
-Model fingerprint: 0xab2b9c05
+Model fingerprint: 0x4ad3ae62
 Coefficient statistics:
   Matrix range     [6e-02, 2e+05]
-  Objective range  [4e-02, 2e+03]
+  Objective range  [4e-02, 1e+03]
   Bounds range     [1e+00, 2e+03]
   RHS range        [1e+00, 3e+03]
 Iteration    Objective       Primal Inf.    Dual Inf.      Time
-       0    1.0500000e+04   1.562251e+07   0.000000e+00      0s
-   43849    1.5676731e+06   3.515404e+04   0.000000e+00      5s
-   46406    1.5676902e+06   0.000000e+00   0.000000e+00      7s
+       0    1.3620000e+04   1.564517e+07   0.000000e+00      0s
+   43538    1.5651394e+06   1.445692e+05   0.000000e+00      5s
+   47903    1.5651798e+06   0.000000e+00   0.000000e+00      7s
 
-Solved in 46406 iterations and 7.30 seconds
-Optimal objective  1.567690168e+06
-Gurobi 9.0.0: optimal solution; objective 1567690.168
-18796 simplex iterations
-659 branch-and-cut nodes
-plus 46406 simplex iterations for intbasis
-annual_cost = 1567690
+Solved in 47903 iterations and 7.25 seconds
+Optimal objective  1.565179803e+06
+Gurobi 9.0.0: optimal solution; objective 1565179.803
+8272 simplex iterations
+1 branch-and-cut nodes
+plus 47903 simplex iterations for intbasis
+annual_cost = 1565180
 
 Z [*] :=
-1  4
-2  3
+1  7
+2  5
 ;
 
 option log_file runlog.out;
