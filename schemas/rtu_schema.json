@@ -1,0 +1,21 @@
+{
+  "capacity_rated_Wt": null,
+  "cop": [],
+  "index": null,
+  "name": "",
+  "rate_cooling_Wt": [],
+  "rate_electricity_W": [],
+  "temp_wb_evaporator_C": [],
+  "timesteps_load": [],
+  "type": "",
+  "utss": {
+    "cop_charge": [],
+    "cop_discharge": null,
+    "discharge_effectiveness": [],
+    "install_limit": 1,
+    "rate_charge_max_Wt": [],
+    "rate_discharge_max_Wt": [],
+    "thermal_loss_efficiency": [],
+    "type": ""
+  }
+}

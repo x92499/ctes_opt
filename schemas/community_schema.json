@@ -1,0 +1,12 @@
+{
+  "building_count": 0,
+  "building_names": [],
+  "chiller_count": 0,
+  "district_plant_names": [],
+  "plant_count": 0,
+  "rate_cooling_Wt": [],
+  "rate_elec_cooling_W": [],
+  "rate_elec_non_cooling_W": [],
+  "rate_electricity_W": [],
+  "rtu_count": 0
+}
