@@ -23,7 +23,7 @@
     "full_name": "Ice Bank 1170C",
     "manufacturer": "CALMAC",
     "capacity_nominal_ton_hr": 163,
-    "capacity_nominal_Wt": 570,
+    "capacity_nominal_Wt": 570000,
     "coeffs_cap_charge": [1.3879, -7.6333, 26.3423, -47.6084,
         41.8498, -14.2948],
     "coeffs_cap_discharge": [1.3879, -7.6333, 26.3423, -47.6084,

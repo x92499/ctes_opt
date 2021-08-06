@@ -15,7 +15,8 @@ import curves
 #-------------------------------------------------------------------------------
 def run(project, preprocess, log):
     # load ctes_types.json
-    with open(os.path.join('libraries', 'ctes_types.json'), 'r') as f:
+    with open(os.path.join('ctes_resources', 'data',
+        'ctes_types.json'), 'r') as f:
         ctes_types = json.load(f)
     f.close()
     # iterate through buildings
@@ -52,9 +53,10 @@ def run(project, preprocess, log):
 # Method to process central CTES model for a given chiller
 def central(chiller, wx, ctes, ts, segments, log):
     log.info("Processing CTES for Chiller {}".format(chiller["name"]))
-    # Set cost and lifespan
+    # Set cost, capacity, and lifespan
     chiller['ctes']['cost_per_kWt'] = ctes['cost_per_kWt']
     chiller['ctes']['lifespan_yrs'] = ctes['lifespan_yrs']
+    chiller['ctes']['capacity_nominal_Wt'] = ctes['capacity_nominal_Wt']
     # Get chiller capacity
     capacity = max(chiller['rate_cooling_Wt'])
     max_index = chiller['rate_cooling_Wt'].index(capacity)
@@ -154,6 +156,7 @@ def utss(rtu, wx, utss, ts, log):
     # Set cost and lifespan
     rtu['utss']['cost_per_kWt'] = utss['cost_per_kWt']
     rtu['utss']['lifespan_yrs'] = utss['lifespan_yrs']
+    rtu['utss']['capacity_nominal_Wt'] = utss['capacity_nominal_Wt']
     # Set useful variables
     q = utss['capacity_nominal_Wt']
     q_c = utss['rate_charge_nominal_Wt']

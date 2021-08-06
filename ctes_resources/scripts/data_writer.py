@@ -52,6 +52,7 @@ def ampl(prep, log):
     yrs = {'utss': 0, 'central': 0}
     k = {'utss': 0, 'central': 0}
     z_bar = {'utss': [], 'central': []}
+    qbar = {'utss': 0, 'central': 0}
     # Define write path
     project_path = prep['program_manager']['project_name']
     ampl_path = os.path.join(project_path, 'ampl_files')
@@ -117,6 +118,8 @@ def ampl(prep, log):
                 if yrs['utss'] == 0:
                     yrs['utss'] = prep[b][n]['utss']['lifespan_yrs']
                     k['utss'] = prep[b][n]['utss']['cost_per_kWt']
+                    qbar['utss'] = round(
+                        prep[b][n]['utss']['capacity_nominal_Wt'] / 1000, 2)
                 # Set z_bar values
                 z_bar['utss'].append(prep[b][n]['utss']['install_limit'])
                 z_bar['central'].append(0)
@@ -179,6 +182,8 @@ def ampl(prep, log):
                 if yrs['central'] == 0:
                     yrs['central'] = prep[b][n]['ctes']['lifespan_yrs']
                     k['central'] = prep[b][n]['ctes']['cost_per_kWt']
+                    qbar['central'] = round(
+                        prep[b][n]['ctes']['capacity_nominal_Wt'] / 1000, 2)
                 # Set z_bar values
                 z_bar['utss'].append(0)
                 z_bar['central'].append(prep[b][n]['ctes']['install_limit'])
@@ -201,6 +206,7 @@ def ampl(prep, log):
     vals.append(z_bar['utss'])
     vals.append(z_bar['central'])
     vals.append(segments)
+    vals.append([qbar['utss'], qbar['central']])
 
     multiline_lists(vals, ampl_path, "fixed_params.dat", log)
 
