@@ -127,11 +127,6 @@ def central(chiller, wx, ctes, ts, segments, log):
             charge_capacity)
         chiller["charging_performance"]["slope"].append(
             charge_power)
-        # Determine the maximum number of UTSS that can be installed
-        # Get max cooling load and add 20% buffer to help cover duration
-        mx = max(chiller['rate_cooling_Wt']) * 1.2e-3
-        chiller['ctes']['install_limit'] = int(
-            (mx // ctes["capacity_nominal_Wt"] / 4) * 3)
         # Set minimum charging capacity to > 1000 W_th
         if charge_capacity > 1000:
             chiller["charging_performance"]["timesteps"].append(t+1)
@@ -147,6 +142,11 @@ def central(chiller, wx, ctes, ts, segments, log):
             log.info("This issue is often resolved by using shorter " \
                 "optimization timesteps (eg. use '-t 4') which avoids " \
                 "the impact of part-load factors from simulation.")
+    # Determine the maximum number of UTSS that can be installed
+    # Get max cooling load and add 20% buffer
+    mx = max(chiller['rate_cooling_Wt']) * 1.2
+    chiller['ctes']['install_limit'] = int(mx //
+        max(chiller["discharging_performance"]["rate_discharge_max_Wt"]))
     return chiller
 
 #-------------------------------------------------------------------------------

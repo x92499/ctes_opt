@@ -140,7 +140,7 @@ def ampl(prep, log):
                 multiline(vals, ampl_path, "q_dotX{}.dat".format(
                     prep[b][n]['index']), log)
                 # Max Discharging Rate
-                vals = [round(v, 2) for v in prep[b][n]
+                vals = [round(v / 1000, 2) for v in prep[b][n]
                     ['discharging_performance']['rate_discharge_max_Wt']]
                 multiline(vals, ampl_path, "q_dotIY{}.dat".format(
                     prep[b][n]['index']), log)

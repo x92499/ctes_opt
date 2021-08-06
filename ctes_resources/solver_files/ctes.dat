@@ -17,8 +17,8 @@ read D, I, N, T, {d in 1..D} Td_ct[d], {n in 1..N} TYf_ct[n], {n in 1..N} TYp_ct
 # let k[2]:= 39.81;  # $/kWh_t for Central
 
 # Override CTES capacities
-let qbar[1]:= 133;
-let qbar[2]:= 570;
+# let qbar[1]:= 133;
+# let qbar[2]:= 570;
 
 param filename symbolic;
 ## Read parameter sets for each chiller:
