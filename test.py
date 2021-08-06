@@ -68,14 +68,14 @@ if args['utility']:
     f.close()
     preprocess['utility_rate'] = create_erate.run(
         preprocess['program_manager']['timesteps'], log)
-
 #-------------------------------------------------------------------------------
 # Data Summary
 print("Writing files")
 data_writer.data_structure(preprocess, os.path.join(args['project_name'],
     'project_workspace', 'preprocessor_data_structure.txt'), log)
 data_writer.write_json(preprocess,os.path.join(args['project_name'],
-    'project_workspace'), "preprocess.json",log)
+    'project_workspace'), "preprocess.json", log)
+data_writer.ampl(preprocess, log)
 #-------------------------------------------------------------------------------
 # Terminate Logger
 log.info("Logging terminated at {}".format(time.ctime()))

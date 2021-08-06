@@ -23,6 +23,7 @@
   },
   "discharging_performance": {
     "ranges": [],
+    "rate_discharge_max_Wt": [],
     "slopes": [],
     "timesteps": [],
     "timesteps_full_storage": [],

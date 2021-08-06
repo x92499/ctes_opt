@@ -43,62 +43,170 @@ def multiline_lists(vals, path, filename, log):
         len(vals), filename, path))
     return
 #-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
 def ampl(prep, log):
     # Writes all the files for use by AMPL
+    # Create useful variables, lists, and locally-used dictionaries
+    segments = []
+    T_full_ct = []
+    T_part_ct = []
+    yrs = {'utss': 0, 'central': 0}
+    k = {'utss': 0, 'central': 0}
+    z_bar = {'utss': [], 'central': []}
+    # Define write path
+    project_path = prep['program_manager']['project_name']
+    ampl_path = os.path.join(project_path, 'ampl_files')
+    ## Timeseries values
+    # Community aggregate power demand profile (W->kW)
+    vals = [round(v / 1000, 2) for v in prep['community']['rate_electricity_W']]
+    multiline(vals, ampl_path, "p.dat", log)
+    # Electricity rate by timestep ($/kWh)
+    vals = prep['utility_rate']['energy_cost']
+    multiline(vals, ampl_path, "cost_elec.dat", log)
+    # Demand period timestep sets
+    vals = prep['utility_rate']["demand_pd_timesteps"]
+    multiline_lists(vals, ampl_path, "Td.dat", log)
+    # Demand Response timestep set
+    vals = prep['utility_rate']["DR_timesteps"]
+    multiline(vals, ampl_path, "Tr.dat", log)
+    # Timeseries by cooling plant (rtu, chiller, or district plant)
+    for b in prep['community']['building_names']:
+        for n in prep[b]:
+            if 'rtu' in n:
+                # Electricity Rate (W->kW)
+                vals = [round(v / 1000, 2) for v in
+                    prep[b][n]['rate_electricity_W']]
+                multiline(vals, ampl_path, "pN{}.dat".format(
+                    prep[b][n]['index']), log)
+                # Cooling Rate (Wt->kWt)
+                vals = [round(v / 1000, 2) for v in
+                    prep[b][n]['rate_cooling_Wt']]
+                multiline(vals, ampl_path, "lN{}.dat".format(
+                    prep[b][n]['index']), log)
+                # Max Charging Rate (Wt->kWt)
+                vals = [round(v / 1000, 2) for v in
+                    prep[b][n]['utss']['rate_charge_max_Wt']]
+                multiline(vals, ampl_path, "q_dotX{}.dat".format(
+                    prep[b][n]['index']), log)
+                # Max Discharging Rate (Wt->kWt)
+                vals = [round(v / 1000, 2) for v in
+                    prep[b][n]['utss']['rate_discharge_max_Wt']]
+                multiline(vals, ampl_path, "q_dotIY{}.dat".format(
+                    prep[b][n]['index']), log)
+                multiline(vals, ampl_path, "y_bar{}.dat".format(
+                    prep[b][n]['index']), log)
+                segments.append(1)
+                # Charging Efficiency
+                vals = [round(1/v, 5) for v in prep[b][n]['utss']['cop_charge']]
+                multiline(vals, ampl_path, "lambdaX{}.dat".format(
+                    prep[b][n]['index']), log)
+                # Discharging Efficiency
+                vals = [round(1/v, 5) for v in prep[b][n]['cop']]
+                multiline(vals, ampl_path, "lambdaY{}.dat".format(
+                    prep[b][n]['index']), log)
+                # Tsets
+                Tsets = []
+                T_full_ct.append(len(prep[b][n]['timesteps_load']))
+                T_part_ct.append(len(prep[b][n]['timesteps_load']))
+                Tsets.append(prep[b][n]['timesteps_load'])
+                Tsets.append(prep[b][n]['timesteps_load'])
+                Tsets.append([i for i in range(
+                    8760 * prep['program_manager']['timesteps'])])
+                multiline_lists(Tsets, ampl_path, "Tsets{}.dat".format(
+                    prep[b][n]['index']), log)
+                # Get lifespan of utss
+                if yrs['utss'] == 0:
+                    yrs['utss'] = prep[b][n]['utss']['lifespan_yrs']
+                    k['utss'] = prep[b][n]['utss']['cost_per_kWt']
+                # Set z_bar values
+                z_bar['utss'].append(prep[b][n]['utss']['install_limit'])
+                z_bar['central'].append(0)
+            elif 'chiller' in n:
+                # Electricity Rate (W->kW)
+                vals = [round(v / 1000, 2) for v in
+                    prep[b][n]['rate_electricity_W']]
+                multiline(vals, ampl_path, "pN{}.dat".format(
+                    prep[b][n]['index']), log)
+                # Cooling Rate (Wt->kWt)
+                vals = [round(v / 1000, 2) for v in
+                    prep[b][n]['rate_cooling_Wt']]
+                multiline(vals, ampl_path, "lN{}.dat".format(
+                    prep[b][n]['index']), log)
+                # Max Charging Rate (Wt->kWt)
+                vals = [round(v / 1000, 2) for v in
+                    prep[b][n]['charging_performance']['rate_cooling_max_Wt']]
+                multiline(vals, ampl_path, "q_dotX{}.dat".format(
+                    prep[b][n]['index']), log)
+                # Max Discharging Rate
+                vals = [round(v, 2) for v in prep[b][n]
+                    ['discharging_performance']['rate_discharge_max_Wt']]
+                multiline(vals, ampl_path, "q_dotIY{}.dat".format(
+                    prep[b][n]['index']), log)
+                # Charging Efficiency
+                vals = [round(v, 5) for v in
+                    prep[b][n]['charging_performance']['slope']]
+                multiline(vals, ampl_path, "lambdaX{}.dat".format(
+                    prep[b][n]['index']), log)
+                # Discharging Efficiency
+                vals = []
+                for s in range(len(prep[b][n]
+                    ['discharging_performance']['slopes'])):
+                    vals.append([round(i, 5) for i in prep[b][n]
+                        ['discharging_performance']['slopes'][s]])
+                multiline_lists(vals, ampl_path, "lambdaY{}.dat".format(
+                    prep[b][n]['index']), log)
+                # Discharging Efficiency Ranges (Wt->kWt)
+                vals = []
+                for s in range(len(prep[b][n]
+                    ['discharging_performance']['ranges'])):
+                    vals.append([round(i / 1000, 5) for i in prep[b][n]
+                        ['discharging_performance']['ranges'][s]])
+                multiline_lists(vals, ampl_path, "y_bar{}.dat".format(
+                    prep[b][n]['index']), log)
+                segments.append(prep['program_manager']['segments'])
+                # Tsets
+                Tsets = []
+                T_full_ct.append(len(prep[b][n]['discharging_performance']
+                    ['timesteps_full_storage']))
+                T_part_ct.append(len(prep[b][n]['timesteps_load']))
+                Tsets.append(prep[b][n]['timesteps_load'])
+                Tsets.append(prep[b][n]['discharging_performance']
+                    ['timesteps_full_storage'])
+                Tsets.append(prep[b][n]['charging_performance']
+                    ['timesteps'])
+                multiline_lists(Tsets, ampl_path, "Tsets{}.dat".format(
+                    prep[b][n]['index']), log)
+                # Get lifespan of utss
+                if yrs['central'] == 0:
+                    yrs['central'] = prep[b][n]['ctes']['lifespan_yrs']
+                    k['central'] = prep[b][n]['ctes']['cost_per_kWt']
+                # Set z_bar values
+                z_bar['utss'].append(0)
+                z_bar['central'].append(prep[b][n]['ctes']['install_limit'])
 
-#     # Get just the chillers for convenience
-#     chillers = {}
-#     idx = 0
-#     for p in plant_loops:
-#         for c in plant_loops[p]:
-#             if c not in ["district_cooling_load", "district_mass_flow",
-#                 "total_power"]:
-#                 chillers[idx] = plant_loops[p][c]
-#                 idx += 1
+    ## Constants and set sizes
+    # read D, I, N, T, {d in 1..D} Td_ct[d], {n in 1..N} TYf_ct[n], {n in 1..N} TYp_ct[n], Tr_ct, delta, {i in 1..I} yrs[i], {n in UTSS} zbar[1,n], {d in 1..D} c_d[d] < fixed_params.dat;
+    vals = []
+    vals.append([len(prep['utility_rate']['demand_pd_ts_ct'])])
+    vals.append([2])
+    vals.append([prep['community']['plant_count']])
+    vals.append([prep['program_manager']['timesteps'] * 8760])
+    vals.append(prep['utility_rate']['demand_pd_ts_ct'])
+    vals.append(T_full_ct)
+    vals.append(T_part_ct)
+    vals.append([len(prep['utility_rate']['DR_timesteps'])])
+    vals.append([1 / prep['program_manager']['timesteps']])
+    vals.append([yrs['utss'], yrs['central']])
+    vals.append([k['utss'], k['central']])
+    vals.append(prep['utility_rate']['demand_cost'])
+    vals.append(z_bar['utss'])
+    vals.append(z_bar['central'])
+
+    multiline_lists(vals, ampl_path, "fixed_params.dat", log)
+
 #
 #     ## Write constants file (fixed_params.dat)
 #     #constants(ampl_path, chillers, buildings, erates, segments, ts_opt, log)
-#     # Write variables that have single values per timestep:
-#     for idx in range(len(chillers)):
-#         k = idx + 1
-#         # Sets for partial, full, and charge timesteps
-#         Tsets = []
-#         Tsets.append(chillers[idx]["partial_storage_timesteps"])
-#         Tsets.append(chillers[idx]["full_storage_timesteps"])
-#         Tsets.append(chillers[idx]["charge_timesteps"])
-#         multiline_lists(Tsets, ampl_path, "Tsets{}.dat".format(k), log)
-#
-#         # Cooling load served by plant at each timestep (Wth -> kWth)
-#         vals = [round(v / 1000, 2) for v in chillers[idx]["evap_cooling_rate"]]
-#         multiline(vals, ampl_path, "l{}.dat".format(k), log)
-#         # Chiller electric power at time t (W -> kW)
-#         vals = [round(v / 1000, 2) for v in chillers[idx]["electricity_rate"]]
-#         multiline(vals, ampl_path, "pN{}.dat".format(k), log)
-#         # Chiller excess capacity available for ice making at t (Wth -> kWth)
-#         vals = [round(v / 1000, 2) for v in chillers[idx]["charge_capacity"]]
-#         multiline(vals, ampl_path, "qNX{}.dat".format(k), log)
-#         # Chiller power increase slope for making ice at t (kWe/kWth)
-#         vals = [round(v, 3) for v in chillers[idx]["charge_power"]]
-#         multiline(vals, ampl_path, "lambdaX{}.dat".format(k), log)
-#         # Maximum rate of ice discharge at time t (kWth)
-#         vals = [round(v / 1000, 3) for v in chillers[idx]["ctes"]["max_discharge"]]
-#         multiline(vals, ampl_path, "qIY{}.dat".format(k), log)
-#
-#         # Partial storage power reduction segment slopes (kWe/kWth)
-#         vals = []
-#         for s in range(len(chillers[idx]["segment_slopes"])):
-#             vals.append(
-#                 [round(i, 5) for i in chillers[idx]["segment_slopes"][s]])
-#         multiline_lists(vals, ampl_path, "lambdaY{}.dat".format(k), log)
-#         # Partial storage power reduction segment lengths (ranges) (kWe/kWth)
-#         vals = []
-#         for s in range(len(chillers[idx]["segment_ranges"])):
-#             vals.append([round(
-#                 i / 1000, 2) for i in chillers[idx]["segment_ranges"][s]])
-#         multiline_lists(vals, ampl_path, "lbar{}.dat".format(k), log)
+
 #
 #         # Total community power usage
 #         vals = [round(v / 1000, 2) for v in community["electricity_rate"]]

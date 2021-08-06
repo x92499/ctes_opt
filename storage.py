@@ -52,6 +52,9 @@ def run(project, preprocess, log):
 # Method to process central CTES model for a given chiller
 def central(chiller, wx, ctes, ts, segments, log):
     log.info("Processing CTES for Chiller {}".format(chiller["name"]))
+    # Set cost and lifespan
+    chiller['ctes']['cost_per_kWt'] = ctes['cost_per_kWt']
+    chiller['ctes']['lifespan_yrs'] = ctes['lifespan_yrs']
     # Get chiller capacity
     capacity = max(chiller['rate_cooling_Wt'])
     max_index = chiller['rate_cooling_Wt'].index(capacity)
@@ -110,6 +113,10 @@ def central(chiller, wx, ctes, ts, segments, log):
             else:
                 chiller['discharging_performance'][
                     'timesteps_full_storage'].append(t+1)
+        # Set maximum charging rate restricted by the tank (arbitrarily set at
+        # C/4)
+        chiller["discharging_performance"]["rate_discharge_max_Wt"].append(
+            ctes["capacity_nominal_Wt"] / 4)
         ## Get chiller performance at charging conditions
         charge_capacity, charge_power = chiller_electric_eir_charging(
             capacity, cop_ref, c_cT, c_eT, c_eP, m_dot, power, load, Pc_fan,
@@ -118,7 +125,12 @@ def central(chiller, wx, ctes, ts, segments, log):
             charge_capacity)
         chiller["charging_performance"]["slope"].append(
             charge_power)
-        # Set minimum charging capacity to > 3000 W_th
+        # Determine the maximum number of UTSS that can be installed
+        # Get max cooling load and add 20% buffer to help cover duration
+        mx = max(chiller['rate_cooling_Wt']) * 1.2e-3
+        chiller['ctes']['install_limit'] = int(
+            (mx // ctes["capacity_nominal_Wt"] / 4) * 3)
+        # Set minimum charging capacity to > 1000 W_th
         if charge_capacity > 1000:
             chiller["charging_performance"]["timesteps"].append(t+1)
         # Check for negative charge power coefficients
@@ -139,6 +151,9 @@ def central(chiller, wx, ctes, ts, segments, log):
 # Method to process UTSS model for a given RTU
 def utss(rtu, wx, utss, ts, log):
     log.info("Processing UTSS for RTU '{}'".format(rtu["name"]))
+    # Set cost and lifespan
+    rtu['utss']['cost_per_kWt'] = utss['cost_per_kWt']
+    rtu['utss']['lifespan_yrs'] = utss['lifespan_yrs']
     # Set useful variables
     q = utss['capacity_nominal_Wt']
     q_c = utss['rate_charge_nominal_Wt']
