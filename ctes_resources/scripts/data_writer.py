@@ -200,6 +200,7 @@ def ampl(prep, log):
     vals.append(prep['utility_rate']['demand_cost'])
     vals.append(z_bar['utss'])
     vals.append(z_bar['central'])
+    vals.append(segments)
 
     multiline_lists(vals, ampl_path, "fixed_params.dat", log)
 

@@ -9,7 +9,8 @@ import sys
 import time
 
 # Custom modules
-sys.path.append("libraries")
+sys.path.append("ctes_resources/libraries")
+sys.path.append("ctes_resources/scripts")
 import aggregator
 import args
 import create_erate

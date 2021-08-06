@@ -22,7 +22,8 @@ def run(project, log):
         preprocess['program_manager'] = json.load(f)
     f.close()
     # Load community_schema.json and initialize indices
-    with open(os.path.join('schemas', 'community_schema.json'), 'r') as f:
+    with open(os.path.join('ctes_resources', 'schemas',
+        'community_schema.json'), 'r') as f:
         preprocess['community'] = json.load(f)
     f.close()
     # Get weather data
@@ -163,7 +164,8 @@ def chiller(prep, bldg, log):
         prep['community']['plant_count'] += 1
         # Setup chiller schema
         c = "chiller{}".format(idx)
-        with open(os.path.join('schemas', 'chiller_schema.json'), 'r') as f:
+        with open(os.path.join('ctes_resources', 'schemas',
+            'chiller_schema.json'), 'r') as f:
             prep[bldg][c] = json.load(f)
         f.close()
         # Set constants
@@ -299,7 +301,8 @@ def rtu(prep, bldg, log):
         prep['community']['plant_count'] += 1
         # Setup rtu schema
         rtu = "rtu{}".format(j)
-        with open(os.path.join('schemas', 'rtu_schema.json'), 'r') as r:
+        with open(os.path.join('ctes_resources', 'schemas',
+            'rtu_schema.json'), 'r') as r:
             prep[bldg][rtu] = json.load(r)
         r.close()
         # Load constants
