@@ -1,9 +1,0 @@
-erates:
-  energy_cost: 8760 items
-  demand_cost: 12 items
-  demand_pd_ts_ct: 12 items
-  demand_pd_timesteps: 12 items
-  DR_timesteps: 72 items
-  baseline_demand: 12 items
-  baseline_energy: float
-  baseline_total: float

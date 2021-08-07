@@ -3,3 +3,6 @@ measures/expose_chillers/tests/**/
 python_modules/xfer.py
 resources/OS Models for Campus Buildings/**/
 resources/ITStest/
+ctes_project/
+integrated_example/
+mines_example/

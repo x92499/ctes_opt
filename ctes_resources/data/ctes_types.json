@@ -1,0 +1,36 @@
+{
+  "ib40":{
+    "full_name": "Ice Bear 40",
+    "manufacturer": "Ice Energy Inc",
+    "capacity_nominal_ton_hr": 40,
+    "capacity_nominal_Wt": 140674,
+    "cop_charge": 3.09,
+    "cop_discharge": 63.9,
+    "rate_charge_nominal_Wt": 17584.2625,
+    "rate_discharge_nominal_Wt": 35168.525,
+    "median_soc": 0.55,
+    "rate_thermal_loss_W_K": 7.913,
+    "coeffs_eir_ft": [0.620824852, 0.021143766, 0.001475816,
+      -0.002605549, 0.000719372, 0.001824618],
+    "coeffs_cap_ft": [1.293002277, -0.126986991, 0.018599624,
+      -0.008296503, 9.79758E-05, 0.001330975],
+    "coeffs_cap_discharge": [-0.561476105575098, 0.133948946696947,
+      -0.0027652398813276],
+    "cost_per_kWt": 100,
+    "lifespan_yrs": 20
+  },
+  "1170c":{
+    "full_name": "Ice Bank 1170C",
+    "manufacturer": "CALMAC",
+    "capacity_nominal_ton_hr": 163,
+    "capacity_nominal_Wt": 570000,
+    "coeffs_cap_charge": [1.3879, -7.6333, 26.3423, -47.6084,
+        41.8498, -14.2948],
+    "coeffs_cap_discharge": [1.3879, -7.6333, 26.3423, -47.6084,
+        41.8498, -14.2948],
+    "cost_per_kWt": 39.81,
+    "lifespan_yrs": 20,
+    "temp_freezing_C": 0,
+    "temp_charge_C": -3.8
+  }
+}

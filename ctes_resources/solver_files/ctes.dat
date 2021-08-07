@@ -1,0 +1,75 @@
+# Integrated Optimization Formulation Data Read-in
+# Karl Heine, Colorado School of Mines, kheine@mines.edu
+# March 16, 2021
+# Revised June, 2021
+# Revised: August 6, 2021
+
+#--------------------------------
+# Data File
+#--------------------------------
+# integrated.dat
+
+# Set fixed parameter data
+read D, I, N, T, {d in 1..D} Td_ct[d], {n in 1..N} TYf_ct[n], {n in 1..N} TYp_ct[n], Tr_ct, delta, {i in 1..I} yrs[i], {i in 1..I} k[i], {d in 1..D} c_d[d], {n in 1..N} zbar[1,n], {n in 1..N} zbar[2,n], {n in 1..N} S[n], {i in 1..I} qbar[i] < fixed_params.dat;
+
+# Override CTES cost parameters
+# let k[1]:= 75.19;  # $/kWh_t for UTSS
+# let k[2]:= 39.81;  # $/kWh_t for Central
+
+# Override CTES capacities
+# let qbar[1]:= 133;
+# let qbar[2]:= 570;
+
+param filename symbolic;
+## Read parameter sets for each chiller:
+for {n in 1..N} {
+	# read baseline cooling load profiles for each cooler
+	let filename:="l" & n & ".dat";
+	read {t in 1..T} l[n,t] < (filename);
+	# read baseline cooler electric demand profiles
+	let filename:="pN" & n & ".dat";
+	read {t in 1..T} pN[n,t] < (filename);
+	# read slopes for charging
+	let filename:="lambdaX" & n & ".dat";
+	read {t in 1..T} lambdaX[n,t] < (filename);
+	# read slopes for partial storage cooler discharge curves
+	let filename:="lambdaY" & n & ".dat";
+	read {t in 1..T, s in 1..S[n]} lambdaY[n,s,t] < (filename);
+	# read limits for partial storage discharge curve segments
+	let filename:="lbar" & n & ".dat";
+	read {t in 1..T, s in 1..S[n]} lbar[n,s,t] < (filename);
+	# read max rate of cooler charging
+	let filename:="qNX" & n & ".dat";
+	read {t in 1..T} qNX[n,t] < (filename);
+	# read max discharging rates for each CTES
+	let filename:="qIY" & n & ".dat";
+	read {t in 1..T} qIY[n,t] < (filename);
+
+	# read indexed set values
+	let filename:="Tsets" & n & ".dat";
+	read {t in 1..TYf_ct[n]} TYf_v[n,t], {t in 1..TYp_ct[n]} TYp_v[n,t] < (filename);
+}
+
+# Set the qIX limit for each CTES system
+let qIX[1]:= 20;  # Arbitrary limit ~ 6 tons
+let qIX[2]:= 71;	# This is ~20 tons per tank charging rate (CALMAC data point)
+
+# Read Electricity Rate Data
+read {d in 1..D, t in 1..Td_ct[d]} Td_v[d,t] < Td.dat;
+read {t in 1..T} c_e[t] < cost_elec.dat;
+
+# Read Baseline Power Profile
+read {t in 1..T} p[t] < p.dat;
+
+# Read Demand Response Timesteps Data
+read {t in 1..Tr_ct} Tr_v[t] < Tr.dat;
+
+# Populate Sets
+let Tr:= setof {t in 1..Tr_ct} Tr_v[t];
+for {n in 1..N} {
+	let TYf[n]:= setof {t in 1..TYf_ct[n]} TYf_v[n,t];
+	let TYp[n]:= setof {t in 1..TYp_ct[n]} TYp_v[n,t];
+}
+for {d in 1..D} {
+	let Td[d]:= setof {t in 1..Td_ct[d]} Td_v[d,t];
+}

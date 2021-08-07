@@ -1,0 +1,31 @@
+{
+  "cost": {
+    "baseline": {
+      "demand_bill_$_kW": null,
+      "demand_bill_monthly_$_kW": [],
+      "energy_bill_$_kWh": null,
+      "total_bill": null
+    },
+    "optimal": {
+      "demand_bill_$_kW": null,
+      "demand_bill_monthly_$_kW": [],
+      "energy_bill_$_kWh": null,
+      "storage_bill": null,
+      "total_bill": null
+    }
+  },
+  "energy": {
+    "baseline": {
+      "peak_demand_kW": [],
+      "total_elec_during_charge_kWh": null,
+      "total_elec_during_discharge_kWh": null,
+      "total_electricity_kWh": null
+    },
+    "optimal": {
+      "peak_demand_kW": [],
+      "total_elec_during_charge_kWh": null,
+      "total_elec_during_discharge_kWh": null,
+      "total_electricity_kWh": null
+    }
+  }
+}

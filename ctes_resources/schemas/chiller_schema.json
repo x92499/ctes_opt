@@ -1,0 +1,44 @@
+{
+  "building": "",
+  "capacity_rated_Wt": 0,
+  "charging_performance": {
+    "rate_cooling_max_Wt": [],
+    "slope": [],
+    "timesteps": []
+  },
+  "condenser_fan_power_fraction": 0,
+  "cop": [],
+  "cop_reference": 0,
+  "ctes": {
+    "install_limit": 0,
+    "thermal_loss_efficiency": [],
+    "type": ""
+  },
+  "curves": {
+    "coeffs_cap_ft": [],
+    "coeffs_eir_ft": [],
+    "coeffs_eir_plr": [],
+    "plr_min": null,
+    "temp_min_C": null
+  },
+  "discharging_performance": {
+    "ranges": [],
+    "rate_discharge_max_Wt": [],
+    "slopes": [],
+    "timesteps": [],
+    "timesteps_full_storage": [],
+    "timesteps_partial_storage": []
+  },
+  "fluid": "GlycolEth40",
+  "index": 0,
+  "mass_flow_evap_kg_s": [],
+  "name": "",
+  "plr": [],
+  "rate_cooling_Wt": [],
+  "rate_electricity_W": [],
+  "temp_evap_outlet_C": [],
+  "temp_evap_inlet_C": [],
+  "temp_charge_C": 0,
+  "timesteps_load": [],
+  "type": ""
+}
