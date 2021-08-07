@@ -81,19 +81,19 @@ def ampl(prep, log):
                 # Cooling Rate (Wt->kWt)
                 vals = [round(v / 1000, 2) for v in
                     prep[b][n]['rate_cooling_Wt']]
-                multiline(vals, ampl_path, "lN{}.dat".format(
+                multiline(vals, ampl_path, "l{}.dat".format(
                     prep[b][n]['index']), log)
                 # Max Charging Rate (Wt->kWt)
                 vals = [round(v / 1000, 2) for v in
                     prep[b][n]['utss']['rate_charge_max_Wt']]
-                multiline(vals, ampl_path, "q_dotX{}.dat".format(
+                multiline(vals, ampl_path, "qNX{}.dat".format(
                     prep[b][n]['index']), log)
                 # Max Discharging Rate (Wt->kWt)
                 vals = [round(v / 1000, 2) for v in
                     prep[b][n]['utss']['rate_discharge_max_Wt']]
-                multiline(vals, ampl_path, "q_dotIY{}.dat".format(
+                multiline(vals, ampl_path, "qIY{}.dat".format(
                     prep[b][n]['index']), log)
-                multiline(vals, ampl_path, "y_bar{}.dat".format(
+                multiline(vals, ampl_path, "lbar{}.dat".format(
                     prep[b][n]['index']), log)
                 segments.append(1)
                 # Charging Efficiency
@@ -132,17 +132,17 @@ def ampl(prep, log):
                 # Cooling Rate (Wt->kWt)
                 vals = [round(v / 1000, 2) for v in
                     prep[b][n]['rate_cooling_Wt']]
-                multiline(vals, ampl_path, "lN{}.dat".format(
+                multiline(vals, ampl_path, "l{}.dat".format(
                     prep[b][n]['index']), log)
                 # Max Charging Rate (Wt->kWt)
                 vals = [round(v / 1000, 2) for v in
                     prep[b][n]['charging_performance']['rate_cooling_max_Wt']]
-                multiline(vals, ampl_path, "q_dotX{}.dat".format(
+                multiline(vals, ampl_path, "qNX{}.dat".format(
                     prep[b][n]['index']), log)
                 # Max Discharging Rate
                 vals = [round(v / 1000, 2) for v in prep[b][n]
                     ['discharging_performance']['rate_discharge_max_Wt']]
-                multiline(vals, ampl_path, "q_dotIY{}.dat".format(
+                multiline(vals, ampl_path, "qIY{}.dat".format(
                     prep[b][n]['index']), log)
                 # Charging Efficiency
                 vals = [round(v, 5) for v in
@@ -163,7 +163,7 @@ def ampl(prep, log):
                     ['discharging_performance']['ranges'])):
                     vals.append([round(i / 1000, 5) for i in prep[b][n]
                         ['discharging_performance']['ranges'][s]])
-                multiline_lists(vals, ampl_path, "y_bar{}.dat".format(
+                multiline_lists(vals, ampl_path, "lbar{}.dat".format(
                     prep[b][n]['index']), log)
                 segments.append(prep['program_manager']['segments'])
                 # Tsets

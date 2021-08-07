@@ -10,7 +10,7 @@
 # integrated.dat
 
 # Set fixed parameter data
-read D, I, N, T, {d in 1..D} Td_ct[d], {n in 1..N} TYf_ct[n], {n in 1..N} TYp_ct[n], Tr_ct, delta, {i in 1..I} yrs[i], {i in 1..I} k[i], {d in 1..D} c_d[d], {n in 1..N} z_bar[1,n], {n in 1..N} z_bar[2,n], {n in 1..N} S[n], {i in 1..I} qbar[i] < fixed_params.dat;
+read D, I, N, T, {d in 1..D} Td_ct[d], {n in 1..N} TYf_ct[n], {n in 1..N} TYp_ct[n], Tr_ct, delta, {i in 1..I} yrs[i], {i in 1..I} k[i], {d in 1..D} c_d[d], {n in 1..N} zbar[1,n], {n in 1..N} zbar[2,n], {n in 1..N} S[n], {i in 1..I} qbar[i] < fixed_params.dat;
 
 # Override CTES cost parameters
 # let k[1]:= 75.19;  # $/kWh_t for UTSS
