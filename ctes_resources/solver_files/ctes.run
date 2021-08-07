@@ -23,9 +23,6 @@ param e_bill >= 0;
 param d_bill >= 0;
 param capex >= 0;
 
-# Override k value
-let k:= 1135;
-
 # Solve
 solve;
 

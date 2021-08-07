@@ -56,13 +56,13 @@ let qIX[2]:= 71;	# This is ~20 tons per tank charging rate (CALMAC data point)
 
 # Read Electricity Rate Data
 read {d in 1..D, t in 1..Td_ct[d]} Td_v[d,t] < Td.dat;
-read {t in 1..T} c_e[t] < cost_elecCambium.dat;
+read {t in 1..T} c_e[t] < cost_elec.dat;
 
 # Read Baseline Power Profile
 read {t in 1..T} p[t] < p.dat;
 
 # Read Demand Response Timesteps Data
-read {t in 1..Tr_ct} Tr_v[t] < TrCambium.dat;
+read {t in 1..Tr_ct} Tr_v[t] < Tr.dat;
 
 # Populate Sets
 let Tr:= setof {t in 1..Tr_ct} Tr_v[t];
